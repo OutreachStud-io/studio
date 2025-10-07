@@ -1,3 +1,5 @@
+![OutreacStudio Banner](https://outreachstud.io/media/images/banner.png)
+
 > [!IMPORTANT]
 > Star this repo or keep an eye on it to follow along.
 
