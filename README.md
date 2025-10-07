@@ -1,7 +1,7 @@
 ![OutreacStudio Banner](https://outreachstud.io/media/images/banner.png)
 
 > [!IMPORTANT]
-> Star this repo or keep an eye on it to follow along.
+> Code is not ready yet for public view. Star this repo or keep an eye on it to follow along or go to our homepage and subscribe to our newsletter to be notified.
 
 OutreactStud.io is an open source outreach software for sales and marketing teams with a strong starting focus on emailing which includes: cold emailing, newsletter management, transactional email.
 It is built using modern technologies, web standards and with great features in mind.
