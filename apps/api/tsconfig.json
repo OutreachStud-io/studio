@@ -1,0 +1,17 @@
+{
+	"extends": "../../packages/typescript-config/nestjs.json",
+	"references": [
+		{
+			"path": "../../packages/orpc"
+		},
+		{
+			"path": "../../packages/dbschema"
+		},
+		{
+			"path": "../../packages/utils"
+		}
+	],
+	"compilerOptions": {
+		"incremental": false
+	}
+}

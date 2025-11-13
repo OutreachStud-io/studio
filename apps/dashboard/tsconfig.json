@@ -1,0 +1,14 @@
+{
+	"extends": "../../packages/typescript-config/vite.json",
+	"references": [
+		{
+			"path": "../../packages/orpc"
+		},
+		{
+			"path": "../../packages/utils"
+		}
+	],
+	"compilerOptions": {
+		"baseUrl": "."
+	}
+}

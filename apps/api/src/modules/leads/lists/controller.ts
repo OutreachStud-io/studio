@@ -1,0 +1,44 @@
+import {z} from "zod";
+
+import {faker} from "@faker-js/faker";
+
+import {Controller} from '@nestjs/common';
+import {Implement, implement} from '@orpc/nest';
+
+import {schema} from "@outreachstudio/orpc/schema";
+import {contract} from "@outreachstudio/orpc/contract";
+
+import {paginatedResponse} from "@/lib/util";
+
+
+@Controller()
+export class LeadsListsController {
+	@Implement(contract.leadsLists.list)
+	list() {
+		return implement(contract.leadsLists.list)
+			.handler(({input}) => {
+				return paginatedResponse(
+					genData(input.paginate?.limit || 20), {
+						limit : input.paginate?.limit || 10,
+						cursor: 0,
+						total : 100,
+					}
+				);
+			});
+	}
+}
+
+export const genData = (n: number) => {
+	const results: z.infer<typeof schema.leadsLists.list> = [];
+
+	for (let i = 0; i < n; i++) {
+		results.push({
+			id       : faker.string.uuid(),
+			projectId: faker.string.uuid(),
+			name     : faker.company.name() + " List",
+			createdAt: faker.date.past(),
+		});
+	}
+
+	return results;
+};

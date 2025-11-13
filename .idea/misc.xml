@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State />
+          <State>
+            <id>Angular</id>
+          </State>
+          <State>
+            <id>EditorConfig</id>
+          </State>
+          <State>
+            <id>Flow type checkerJavaScript and TypeScript</id>
+          </State>
+          <State>
+            <id>General</id>
+          </State>
+          <State>
+            <id>GeneralJavaScript and TypeScript</id>
+          </State>
+          <State>
+            <id>Imports and dependenciesJavaScript and TypeScript</id>
+          </State>
+          <State>
+            <id>Internationalization</id>
+          </State>
+          <State>
+            <id>JavaScript and TypeScript</id>
+          </State>
+          <State>
+            <id>Less</id>
+          </State>
+          <State>
+            <id>Sass/SCSS</id>
+          </State>
+          <State>
+            <id>Security</id>
+          </State>
+          <State>
+            <id>TypeScriptJavaScript and TypeScript</id>
+          </State>
+        </expanded-state>
+      </profile-state>
+    </entry>
+  </component>
+</project>

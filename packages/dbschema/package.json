@@ -1,0 +1,32 @@
+{
+	"name": "@outreachstudio/dbschema",
+	"version": "0.0.1",
+	"type": "module",
+	"dependencies": {
+		"drizzle-orm": "^0.44.6",
+		"drizzle-zod": "^0.8.3",
+		"pg": "^8.16.3"
+	},
+	"devDependencies": {
+		"@types/pg": "^8.15.5"
+	},
+	"exports": {
+		".": {
+			"import": "./dist/index.js",
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"check-types": "tsc --noEmit",
+		"check-biome": "biome check",
+		"check-circular": "madge --circular --extensions ts ./src --ts-config ./tsconfig.json",
+		"test": "vitest",
+		"dev": "tsdown",
+		"clean": "del-cli dist",
+		"coverage": "vitest run --coverage"
+	}
+}
