@@ -1,0 +1,49 @@
+{
+	"name": "@outreachstudio/orpc",
+	"version": "0.0.1",
+	"type": "module",
+	"dependencies": {
+		"@orpc/client": "^1.9.3",
+		"@orpc/contract": "^1.9.3",
+		"@orpc/openapi-client": "^1.9.3",
+		"@orpc/tanstack-query": "^1.9.3",
+		"@outreachstudio/dbschema": "workspace:^",
+		"@outreachstudio/utils": "workspace:^",
+		"@types/validator": "^13.15.3",
+		"validator": "^13.15.15"
+	},
+	"exports": {
+		"./contract": {
+			"import": "./dist/contract/index.js",
+			"types": "./dist/contract/index.d.ts",
+			"default": "./dist/contract/index.js"
+		},
+		"./schema": {
+			"import": "./dist/schema/index.js",
+			"types": "./dist/schema/index.d.ts",
+			"default": "./dist/schema/index.js"
+		},
+		"./util": {
+			"import": "./dist/util.js",
+			"types": "./dist/util.d.ts",
+			"default": "./dist/util.js"
+		},
+		"./errors": {
+			"import": "./dist/errors.js",
+			"types": "./dist/errors.d.ts",
+			"default": "./dist/errors.js"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"check-types": "tsc --noEmit",
+		"check-biome": "biome check",
+		"check-circular": "madge --circular --extensions ts ./src --ts-config ./tsconfig.json",
+		"test": "vitest",
+		"dev": "tsdown",
+		"clean": "del-cli dist",
+		"coverage": "vitest run --coverage"
+	}
+}

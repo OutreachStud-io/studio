@@ -1,21 +1,48 @@
 {
-  "$schema": "https://turborepo.com/schema.json",
-  "ui": "tui",
-  "tasks": {
-    "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
-    },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "check-types": {
-      "dependsOn": ["^check-types"]
-    },
-    "dev": {
-      "cache": false,
-      "persistent": true
-    }
-  }
+	"$schema": "https://turborepo.com/schema.json",
+	"ui": "tui",
+	"tasks": {
+		"build": {
+			"dependsOn": [
+				"^build"
+			],
+			"inputs": [
+				"$TURBO_DEFAULT$",
+				".env*"
+			],
+			"outputs": [
+			]
+		},
+		"lint": {
+			"dependsOn": [
+				"^lint"
+			]
+		},
+		"check-types": {
+			"dependsOn": [
+				"^check-types"
+			]
+		},
+		"dev": {
+			"dependsOn": [
+				"^dev"
+			],
+			"cache": false,
+			"persistent": false
+		},
+		"@outreachstudio/dashboard#dev": {
+			"cache": false,
+			"persistent": true
+		}
+	},
+	"globalEnv": [
+	],
+	"globalPassThroughEnv": [
+		"NODE_ENV",
+		"CI",
+		"VERCEL",
+		"VERCEL_ENV",
+		"VERCEL_URL",
+		"npm_lifecycle_event"
+	]
 }

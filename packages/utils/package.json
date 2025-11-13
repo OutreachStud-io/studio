@@ -1,0 +1,12 @@
+{
+	"name": "@outreachstudio/utils",
+	"version": "0.0.1",
+	"dependencies": {
+	},
+	"imports": {
+		"#*": "./src/*"
+	},
+	"exports": {
+		"./validators": "./src/validators.ts"
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "Standalone library (not part of a monorepo)",
+	"extends": "./base.json",
+	"compilerOptions": {
+		/* Assuming your bundler will output everything.  */
+		"noEmit": true,
+	}
+}

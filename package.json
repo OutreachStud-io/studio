@@ -1,20 +1,30 @@
 {
-  "name": "coldoutreach",
-  "private": true,
-  "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
-  },
-  "devDependencies": {
-    "prettier": "^3.6.2",
-    "turbo": "^2.5.5",
-    "typescript": "5.8.3"
-  },
-  "packageManager": "pnpm@9.0.0",
-  "engines": {
-    "node": ">=18"
-  }
+	"name": "coldoutreach",
+	"homepage:": "https://outreachstud.io",
+	"private": true,
+	"scripts": {
+		"build": "turbo run build",
+		"dev": "turbo dev",
+		"dev:api": "turbo watch dev -F @outreachstudio/api...",
+		"dev:dashboard": "turbo watch dev -F @outreachstudio/dashboard...",
+		"clean:workspaces": "turbo run clean",
+		"lint": "turbo run lint",
+		"check-types": "turbo run check-types"
+	},
+	"devDependencies": {
+		"turbo": "^2.5.8",
+		"typescript": "^5.9.3",
+		"del-cli": "^7.0.0",
+		"madge": "^8.0.0",
+		"tsdown": "^0.15.6",
+		"vitest": "^3.0.4"
+	},
+	"packageManager": "pnpm@10.14.0",
+	"dependencies": {
+		"zod": "catalog:"
+	},
+	"engines": {
+		"node": ">=22.14.0",
+		"pnpm": ">=10.14.0"
+	}
 }

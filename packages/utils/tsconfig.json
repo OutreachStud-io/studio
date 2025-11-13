@@ -1,0 +1,24 @@
+{
+	"extends": "../../packages/typescript-config/base.json",
+	"include": [
+		"src/**/*.ts"
+	],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"#*": [
+				"./src/*"
+			]
+		},
+		"composite": true,
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"incremental": true,
+		"skipLibCheck": true,
+		"strictNullChecks": true,
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitAny": false,
+		"strictBindCallApply": false,
+		"noFallthroughCasesInSwitch": false
+	}
+}

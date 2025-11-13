@@ -1,0 +1,8 @@
+{
+	"extends": "../../packages/typescript-config/shared-library.json",
+	"references": [
+		{
+			"path": "../../packages/dbschema"
+		}
+	]
+}

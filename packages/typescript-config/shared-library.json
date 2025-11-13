@@ -1,0 +1,14 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "Monorepo shared library",
+	"extends": "./base.json",
+	"compilerOptions": {
+		/* Required for project references, which provide go-to-definition in your
+		IDE without first having to build the module, which is essential during development. */
+		"composite": true,
+		/* Assuming your bundler will output everything, but we can not have noEmit
+		enabled because it is not compatible with composite  / project references. Also declaration might be required for references to work fully. Not sure yet... */
+		"declaration": true,
+		"declarationMap": true
+	}
+}

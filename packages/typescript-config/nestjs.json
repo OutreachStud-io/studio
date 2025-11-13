@@ -1,0 +1,27 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "./base.json",
+	"compilerOptions": {
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"resolvePackageJsonExports": true,
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"declaration": true,
+		"removeComments": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true,
+		"target": "ES2023",
+		"sourceMap": true,
+		"incremental": true,
+		"skipLibCheck": true,
+		"strictNullChecks": true,
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitAny": false,
+		"strictBindCallApply": false,
+		"verbatimModuleSyntax": false,
+		"erasableSyntaxOnly": false,
+		"noFallthroughCasesInSwitch": false
+	}
+}
