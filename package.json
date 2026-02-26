@@ -12,12 +12,12 @@
 		"check-types": "turbo run check-types"
 	},
 	"devDependencies": {
-		"turbo": "^2.5.8",
-		"typescript": "^5.9.3",
 		"del-cli": "^7.0.0",
 		"madge": "^8.0.0",
-		"tsdown": "^0.15.6",
-		"vitest": "^3.0.4"
+		"tsdown": "^0.15.12",
+		"turbo": "^2.6.1",
+		"typescript": "^5.9.3",
+		"vitest": "^3.2.4"
 	},
 	"packageManager": "pnpm@10.14.0",
 	"dependencies": {

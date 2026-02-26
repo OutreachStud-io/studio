@@ -24,13 +24,17 @@ export const columns: (
 			},
 			size         : undefined,
 			header       : ({column}) => (
-				<DataTableColumnHeader className={"pl-4"} column={column} label="Name"/>
+				<DataTableColumnHeader column={column} label="Name"/>
 			),
 			accessorFn   : (row) => row.name,
 			cell         : ({row}) => {
 				return (
-					<div className="flex items-center space-x-2 pl-4">
+					<div className="flex items-center space-x-2 overflow-hidden">
 						<Label label={row.original}/>
+
+						<div className="hidden lg:block text-xs text-muted-foreground text-nowrap max-w-[1px]">
+							{row.original.description}
+						</div>
 					</div>
 				);
 			},

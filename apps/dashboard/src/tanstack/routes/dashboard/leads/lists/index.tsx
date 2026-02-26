@@ -1,10 +1,10 @@
-import {CampaignLeadsListPicker} from "@/components/campaigns/campaign/settings/leads/list-picker.tsx";
-import {DataTableToolbar} from "@/components/data-table/data-table-toolbar.tsx";
-import {DataTable} from "@/components/data-table/data-table.tsx";
-import {crumbs} from "@/hooks/use-crumbs.ts";
-import {useDataTable} from "@/hooks/use-data-table.ts";
-import {getCampaignQueryOptions} from "@/tanstack/query/campaigns/get.ts";
+import {ScrollArea} from "@/components/ui/scroll-area-custom.tsx";
 import React from "react";
+
+import {LeadsListsList} from "@/components/leads/lists/list.tsx";
+import Stats01 from "@/components/leads/lists/stats.tsx";
+import {crumbs} from "@/hooks/use-crumbs.ts";
+
 
 import {useMutation} from "@tanstack/react-query";
 import {tanstackClient} from "@/orpc/client.ts";
@@ -14,21 +14,16 @@ import {toast} from "sonner";
 import {ConfirmDialog} from "@/components/general/confirm.tsx";
 import {LeadsLabelsCreateDialog} from "@/components/leads/labels/create.tsx";
 
-import {PageTitleSubtitle} from "@/components/general/page-title-subtitle.tsx";
-import {LeadsLabelsUpdateDialog} from "@/components/leads/labels/update.tsx";
 import {createFileRoute} from "@tanstack/react-router";
 
 import {useAppStore} from "@/store/app.ts";
-import type {TContract} from "@outreachstudio/orpc/contract";
 
-import {useSuspenseLeadsLabelsQuery} from "@/tanstack/query/leads/labels/list.ts";
-
-import {columns} from "@/components/leads/labels/list/columns";
+import {useSuspenseLeadsListsQuery, type TListOutputResultItem} from "@/tanstack/query/leads/lists/list.ts";
 
 import {AppBar} from "@/components/appbar/bar";
 import SidebarLayout from "@/components/sidebar/layout";
 
-export const Route = createFileRoute('/dashboard/leads/labels/')({
+export const Route = createFileRoute('/dashboard/leads/lists/')({
 	component: Page,
 	loader   : async ({params, context, deps}) => {
 		return {
@@ -36,7 +31,7 @@ export const Route = createFileRoute('/dashboard/leads/labels/')({
 				{title: 'Dashboard', link: {to: '/dashboard'}},
 				{title: 'Leads', link: {to: '/dashboard/leads'}},
 				{
-					title: 'Labels'
+					title: "Lists"
 				}
 			),
 		};
@@ -46,18 +41,18 @@ export const Route = createFileRoute('/dashboard/leads/labels/')({
 function Page() {
 	const appStore = useAppStore();
 
-	const [selectedRecord, setSelectedRecord] = React.useState<TContract["LeadsLabels"]["ShowOutput"] | null>(null);
+	const [selectedRecord, setSelectedRecord] = React.useState<TListOutputResultItem | null>(null);
 	const [editSheetOpen, setEditSheetOpen] = React.useState(false);
 	const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
 
-	const {refetch, isLoading, data} = useSuspenseLeadsLabelsQuery({
+	const {refetch, isLoading, data} = useSuspenseLeadsListsQuery({
 		input: {
 			projectId: `${appStore.selectedProjectId}`
 		}
 	});
 
 	const delMutation = useMutation(
-		tanstackClient.leadsLabels.remove.mutationOptions({})
+		tanstackClient.leadsLists.remove.mutationOptions({})
 	);
 
 	const onDelete = (id: string) => {
@@ -91,46 +86,30 @@ function Page() {
 		refetch();
 	};
 
-	const {table} = useDataTable({
-		data        : data.data || [],
-		columns     : columns({
-			setSelectedRecord   : setSelectedRecord,
-			setEditSheetOpen    : setEditSheetOpen,
-			setDeleteConfirmOpen: setDeleteConfirmOpen,
-		}),
-		pageCount   : 1,
-		getRowId    : (row) => row.id,
-		history     : "push",
-		initialState: {
-			pagination: {
-				pageIndex: 1,
-				pageSize : 1000
-			}
-		},
-	});
-
 	return (
 		<SidebarLayout>
 			<AppBar
 				action={<LeadsLabelsCreateDialog onSuccess={onSuccess}/>}
 			/>
 
-			<PageTitleSubtitle
-				title={"Leads Labels"}
-				showLoading={isLoading}
-				description={"Tag your leads with various labels that can also trigger actions"}
-			/>
+			<div className="border-b">
+				<Stats01/>
+			</div>
 
-			<DataTable table={table} hideThead={true} hidePagination={true}/>
-
-			{selectedRecord && (
-				<LeadsLabelsUpdateDialog
-					open={editSheetOpen}
-					onOpenChange={setEditSheetOpen}
-					record={selectedRecord}
-					onSuccess={onSuccess}
+			<ScrollArea>
+				<LeadsListsList
+					lists={data}
 				/>
-			)}
+			</ScrollArea>
+
+			{/*{selectedRecord && (*/}
+			{/*	<LeadsLabelsUpdateDialog*/}
+			{/*		open={editSheetOpen}*/}
+			{/*		onOpenChange={setEditSheetOpen}*/}
+			{/*		record={selectedRecord}*/}
+			{/*		onSuccess={onSuccess}*/}
+			{/*	/>*/}
+			{/*)}*/}
 
 			<ConfirmDialog
 				open={deleteConfirmOpen}

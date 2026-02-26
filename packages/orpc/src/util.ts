@@ -13,11 +13,9 @@ export const timeIntervalFilterSchema = z.object({
 	startDate: z.string().min(10).max(20).optional(),
 	endDate  : z.string().min(10).max(20).optional(),
 	preset   : z.enum(
-		Object.values(
-			periodFilters
-		).map(
+		periodFilters.map(
 			(p) => p.value
-		)
+		) as [string, ...string[]]
 	).default("last_30_days").optional(),
 });
 

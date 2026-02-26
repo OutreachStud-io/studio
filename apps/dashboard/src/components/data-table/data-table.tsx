@@ -23,12 +23,16 @@ import type {ExtendedRow} from "@/types//data-table";
 interface DataTableProps<TData> extends React.ComponentProps<"div"> {
 	table: TanstackTable<TData>;
 	actionBar?: React.ReactNode;
+	hidePagination?: boolean;
+	hideThead?: boolean;
 }
 
 export function DataTable<TData>(
 	{
 		table,
 		actionBar,
+		hideThead,
+		hidePagination,
 		children,
 		className,
 		...props
@@ -72,46 +76,47 @@ export function DataTable<TData>(
 
 	return (
 		<div
-			className={cn("flex w-full flex-col gap-2.5 overflow-auto", className)}
+			className={cn("h-full flex w-full flex-col gap-2.5 overflow-auto", className)}
 			{...props}
 		>
 			{children}
-			<div className="overflow-hidden">
+			<div className="overflow-hidden flex-1">
 				<Table ref={tableContainerRef}>
-					<TableHeader>
-						{table.getHeaderGroups().map((headerGroup) => {
-							const heads = headerGroup.headers;
+					{!hideThead && (
+						<TableHeader>
+							{table.getHeaderGroups().map((headerGroup) => {
+								const heads = headerGroup.headers;
 
-							return (
-								<TableRow key={headerGroup.id}>
-									{heads.map((header, i) => (
-										<TableHead
-											key={header.id}
-											colSpan={header.colSpan}
+								return (
+									<TableRow key={headerGroup.id}>
+										{heads.map((header, i) => (
+											<TableHead
+												key={header.id}
+												colSpan={header.colSpan}
 
-											style={{
-												...getCommonPinningStyles({column: header.column}),
-												width: header.getSize(),
-											}}
+												style={{
+													...getCommonPinningStyles({column: header.column}),
+													width: header.getSize(),
+												}}
 
-											className={cn(
-												"bg-card! border-t",
-												i === 0 && "pl-6!",
-												i === heads.length - 1 && "pr-6!"
-											)}
-										>
-											{header.isPlaceholder
-												? null
-												: flexRender(
-													header.column.columnDef.header,
-													header.getContext(),
+												className={cn(
+													i === 0 && "pl-6!",
+													i === heads.length - 1 && "pr-6!"
 												)}
-										</TableHead>
-									))}
-								</TableRow>
-							);
-						})}
-					</TableHeader>
+											>
+												{header.isPlaceholder
+													? null
+													: flexRender(
+														header.column.columnDef.header,
+														header.getContext(),
+													)}
+											</TableHead>
+										))}
+									</TableRow>
+								);
+							})}
+						</TableHeader>
+					)}
 					<TableBody>
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map((row) => {
@@ -158,12 +163,12 @@ export function DataTable<TData>(
 					</TableBody>
 				</Table>
 			</div>
-			<div className="flex flex-col gap-2.5 px-6 mt-4">
-				<DataTablePagination table={table}/>
-				{actionBar &&
-					table.getFilteredSelectedRowModel().rows.length > 0 &&
-					actionBar}
-			</div>
+			{!hidePagination && (
+				<div className="flex flex-col gap-2.5 px-6 mt-4">
+					<DataTablePagination table={table}/>
+					{actionBar && table.getFilteredSelectedRowModel().rows.length > 0 && actionBar}
+				</div>
+			)}
 		</div>
 	);
 }

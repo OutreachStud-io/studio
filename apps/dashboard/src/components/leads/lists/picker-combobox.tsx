@@ -38,11 +38,11 @@ export function LeadsListPickerCombobox(
 
 	const query = useLeadsListsQuery({
 		input: {
-			projectId : `${appStore.selectedProjectId}`,
-			pagination: {
+			projectId: `${appStore.selectedProjectId}`,
+			paginate : {
 				limit: 20,
 			},
-			filter    : [{
+			filter   : [{
 				field   : "name",
 				type    : "string",
 				value   : throttledSearch,

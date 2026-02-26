@@ -8,7 +8,7 @@ export default defineConfig({
 		"src/errors.ts",
 	],
 	outDir   : "dist",
-	target   : "es2022",
+	target   : "es2023",
 	sourcemap: true,
 	dts      : true,
 });

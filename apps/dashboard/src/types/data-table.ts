@@ -6,6 +6,12 @@ import type {FilterItemSchema} from "src/lib/parsers";
 import {type TFilterType, type TFilterOperator} from "@outreachstudio/orpc/util";
 
 declare module "@tanstack/react-table" {
+	// biome-ignore lint/correctness/noUnusedVariables: TData is used in the TableMeta interface
+	interface TableMeta<TData extends unknown> {
+		queryKeys?: QueryKeys;
+		getRowStyles?: (row: Row<TData>) => CSSProperties;
+	}
+
 	// biome-ignore lint/correctness/noUnusedVariables: TData and TValue are used in the ColumnMeta interface
 	// @ts-ignore
 	interface ColumnMeta<TData extends RowData, TValue> {
@@ -20,13 +26,6 @@ declare module "@tanstack/react-table" {
 		widthPercentage?: number;
 		filterType?: TFilterType;
 		filterOperator?: TFilterOperator;
-	}
-}
-
-declare module '@tanstack/table-core' {
-	interface TableMeta<TData extends unknown> {
-		queryKeys?: QueryKeys;
-		getRowStyles?: (row: Row<TData>) => CSSProperties;
 	}
 }
 

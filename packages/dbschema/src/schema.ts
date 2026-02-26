@@ -8,7 +8,8 @@ import {
 	pgEnum,
 	uuid,
 	numeric,
-	unique
+	unique,
+	json
 } from "drizzle-orm/pg-core";
 
 import {relations} from "drizzle-orm";
@@ -58,6 +59,7 @@ export const espTypes = {
 export type ESPType = typeof espTypes[keyof typeof espTypes];
 
 export const leadStatusTypes = {
+	notContacted: "not_contacted",
 	contacted   : "contacted",
 	completed   : "completed",
 	replied     : "replied",
@@ -65,6 +67,14 @@ export const leadStatusTypes = {
 	unsubscribed: "unsubscribed",
 	bounced     : "bounced",
 	skipped     : "skipped",
+} as const;
+
+export const leadsListsCustomFieldsTypes = {
+	string : "string",
+	numeric: "numeric",
+	date   : "date",
+	boolean: "boolean",
+	list   : "list",
 } as const;
 
 export type TLeadStatusType = typeof leadStatusTypes[keyof typeof leadStatusTypes];
@@ -110,22 +120,41 @@ export const EspTypesEnum = pgEnum(
 
 // ---------------------------------------------------------------------------------------
 export const leadsListsTable = pgTable("leads_lists", {
-	id       : uuid('id').defaultRandom().primaryKey(),
-	projectId: uuid("project_id")
+	id         : uuid('id').defaultRandom().primaryKey(),
+	projectId  : uuid("project_id")
 		.notNull()
 		.references(() => projectsTable.id, {
 			onDelete: "cascade"
 		}),
-	createdAt: timestamp("created_at", {mode: "date"}),
-	name     : varchar({length: 255}).notNull(),
+	createdAt  : timestamp("created_at", {mode: "date"}),
+	name       : varchar({length: 255}).notNull(),
+	description: text(),
 });
 
 export const leadListsTableRelations = relations(
 	leadsListsTable,
 	({many, one}) => ({
-		leads: many(leadsTable),
+		leads       : many(leadsTable),
+		customFields: many(leadsListsCustomFieldsTable),
 	}),
 );
+
+// ---------------------------------------------------------------------------------------
+export const CustomFieldsTypesEnum = pgEnum(
+	'leads_lists_custom_fields_types_enum',
+	Object.values(leadsListsCustomFieldsTypes) as unknown as readonly ['microsoft', ...string[]]
+);
+
+export const leadsListsCustomFieldsTable = pgTable("leads_lists_custom_fields", {
+	id    : uuid('id').defaultRandom().primaryKey(),
+	listId: uuid("list_id")
+		.notNull()
+		.references(() => leadsListsTable.id, {
+			onDelete: "cascade"
+		}),
+	name  : text("name"),
+	type  : CustomFieldsTypesEnum("type")
+});
 
 // ---------------------------------------------------------------------------------------
 export const leadsTable = pgTable("leads", {
@@ -137,18 +166,33 @@ export const leadsTable = pgTable("leads", {
 		}),
 	esp          : EspTypesEnum("esp"),
 	email        : varchar("email", {length: 255}).notNull(),
-	firstName    : varchar("first_name", {length: 55}).notNull(),
-	lastName     : varchar("last_name", {length: 55}).notNull(),
-	city         : varchar("city", {length: 100}).notNull(),
-	state        : varchar("state", {length: 100}).notNull(),
-	country      : varchar("country", {length: 100}).notNull(),
-	jobTitle     : varchar("job_title", {length: 100}).notNull(),
-	company      : varchar("company", {length: 100}).notNull(),
-	phone        : varchar("phone", {length: 20}).notNull(),
-	industry     : varchar("industry", {length: 100}).notNull(),
+	firstName    : varchar("first_name", {length: 55}),
+	lastName     : varchar("last_name", {length: 55}),
+	city         : varchar("city", {length: 100}),
+	state        : varchar("state", {length: 100}),
+	country      : varchar("country", {length: 100}),
+	jobTitle     : varchar("job_title", {length: 100}),
+	company      : varchar("company", {length: 100}),
+	phone        : varchar("phone", {length: 20}),
+	industry     : varchar("industry", {length: 100}),
 	notes        : text("notes"),
 	createdAt    : timestamp("created_at", {mode: "date"}),
 	blacklistedAt: timestamp("blacklisted_at", {mode: "date"}),
+});
+
+export const leadsCustomListFieldsValuesTable = pgTable("leads_list_custom_fields_values", {
+	id     : uuid('id').defaultRandom().primaryKey(),
+	leadId : uuid("lead_id")
+		.notNull()
+		.references(() => leadsTable.id, {
+			onDelete: "cascade"
+		}),
+	fieldId: uuid("field_id")
+		.notNull()
+		.references(() => leadsListsCustomFieldsTable.id, {
+			onDelete: "cascade"
+		}),
+	value  : varchar("value")
 });
 
 export type TSelectLead = typeof leadsTable.$inferSelect;
@@ -390,7 +434,7 @@ export const campaignLeadsTable = pgTable("campaign_leads", {
 			onDelete: "set null"
 		}),
 
-	status: TLeadStatusTypesEnum("status").default(leadStatusTypes.contacted),
+	status: TLeadStatusTypesEnum("status").default(leadStatusTypes.notContacted),
 });
 
 export type TSelectCampaignLead = typeof campaignLeadsTable.$inferSelect;

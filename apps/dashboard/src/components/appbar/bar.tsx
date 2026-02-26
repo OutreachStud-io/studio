@@ -43,7 +43,7 @@ export function AppBar(p: TSiteHeaderProps) {
 
 	return (
 		<header
-			className="@container/appbar flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
+			className="@container/appbar flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] bg-primary-foreground! rounded-t-lg ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
 			<div className="flex w-full px-6 pl-5! lg:gap-2 lg:px-6">
 				<div className="flex flex-1 items-center ">
 					{p.hideSidebarTrigger !== true && (

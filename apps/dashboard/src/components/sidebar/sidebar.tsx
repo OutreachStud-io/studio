@@ -98,7 +98,7 @@ const navItems: TSidebarNavItem[] = [
 	},
 	{
 		title   : "Prospects",
-		url     : "/dashboard/prospects",
+		url     : "/dashboard/leads/lists",
 		icon    : Users,
 		isActive: false,
 	},

@@ -165,7 +165,7 @@ div[role=menu] div[role=menuitem]:hover {
 	--popover-foreground: oklch(0.985 0 0);
 
 	--primary: oklch(0.92 0.004 286.32);
-	--primary-foreground: oklch(0.21 0.006 285.885);
+	--primary-foreground: oklch(0.11 0.006 285.885);
 	--primary-lighter: oklch(0.72 0.004 286.32);
 
 	--secondary: oklch(0.274 0.006 286.033);

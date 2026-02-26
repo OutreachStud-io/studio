@@ -13,10 +13,12 @@ import { Route as IndexRouteImport } from './tanstack/routes/index'
 import { Route as DashboardIndexRouteImport } from './tanstack/routes/dashboard/index'
 import { Route as DashboardProjectsIndexRouteImport } from './tanstack/routes/dashboard/projects/index'
 import { Route as DashboardCampaignsIndexRouteImport } from './tanstack/routes/dashboard/campaigns/index'
+import { Route as DashboardLeadsListsIndexRouteImport } from './tanstack/routes/dashboard/leads/lists/index'
 import { Route as DashboardLeadsLabelsIndexRouteImport } from './tanstack/routes/dashboard/leads/labels/index'
 import { Route as DashboardCampaignsCampaignIdIndexRouteImport } from './tanstack/routes/dashboard/campaigns/$campaignId/index'
 import { Route as DashboardCampaignsCampaignIdSettingsRouteImport } from './tanstack/routes/dashboard/campaigns/$campaignId/settings'
 import { Route as DashboardProjectsProjectIdCollaboratorsIndexRouteImport } from './tanstack/routes/dashboard/projects/$projectId/collaborators/index'
+import { Route as DashboardLeadsListsIdIndexRouteImport } from './tanstack/routes/dashboard/leads/lists/$id/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -38,6 +40,12 @@ const DashboardCampaignsIndexRoute = DashboardCampaignsIndexRouteImport.update({
   path: '/dashboard/campaigns/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardLeadsListsIndexRoute =
+  DashboardLeadsListsIndexRouteImport.update({
+    id: '/dashboard/leads/lists/',
+    path: '/dashboard/leads/lists/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const DashboardLeadsLabelsIndexRoute =
   DashboardLeadsLabelsIndexRouteImport.update({
     id: '/dashboard/leads/labels/',
@@ -62,6 +70,12 @@ const DashboardProjectsProjectIdCollaboratorsIndexRoute =
     path: '/dashboard/projects/$projectId/collaborators/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const DashboardLeadsListsIdIndexRoute =
+  DashboardLeadsListsIdIndexRouteImport.update({
+    id: '/dashboard/leads/lists/$id/',
+    path: '/dashboard/leads/lists/$id/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -71,6 +85,8 @@ export interface FileRoutesByFullPath {
   '/dashboard/campaigns/$campaignId/settings': typeof DashboardCampaignsCampaignIdSettingsRoute
   '/dashboard/campaigns/$campaignId': typeof DashboardCampaignsCampaignIdIndexRoute
   '/dashboard/leads/labels': typeof DashboardLeadsLabelsIndexRoute
+  '/dashboard/leads/lists': typeof DashboardLeadsListsIndexRoute
+  '/dashboard/leads/lists/$id': typeof DashboardLeadsListsIdIndexRoute
   '/dashboard/projects/$projectId/collaborators': typeof DashboardProjectsProjectIdCollaboratorsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -81,6 +97,8 @@ export interface FileRoutesByTo {
   '/dashboard/campaigns/$campaignId/settings': typeof DashboardCampaignsCampaignIdSettingsRoute
   '/dashboard/campaigns/$campaignId': typeof DashboardCampaignsCampaignIdIndexRoute
   '/dashboard/leads/labels': typeof DashboardLeadsLabelsIndexRoute
+  '/dashboard/leads/lists': typeof DashboardLeadsListsIndexRoute
+  '/dashboard/leads/lists/$id': typeof DashboardLeadsListsIdIndexRoute
   '/dashboard/projects/$projectId/collaborators': typeof DashboardProjectsProjectIdCollaboratorsIndexRoute
 }
 export interface FileRoutesById {
@@ -92,6 +110,8 @@ export interface FileRoutesById {
   '/dashboard/campaigns/$campaignId/settings': typeof DashboardCampaignsCampaignIdSettingsRoute
   '/dashboard/campaigns/$campaignId/': typeof DashboardCampaignsCampaignIdIndexRoute
   '/dashboard/leads/labels/': typeof DashboardLeadsLabelsIndexRoute
+  '/dashboard/leads/lists/': typeof DashboardLeadsListsIndexRoute
+  '/dashboard/leads/lists/$id/': typeof DashboardLeadsListsIdIndexRoute
   '/dashboard/projects/$projectId/collaborators/': typeof DashboardProjectsProjectIdCollaboratorsIndexRoute
 }
 export interface FileRouteTypes {
@@ -104,6 +124,8 @@ export interface FileRouteTypes {
     | '/dashboard/campaigns/$campaignId/settings'
     | '/dashboard/campaigns/$campaignId'
     | '/dashboard/leads/labels'
+    | '/dashboard/leads/lists'
+    | '/dashboard/leads/lists/$id'
     | '/dashboard/projects/$projectId/collaborators'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -114,6 +136,8 @@ export interface FileRouteTypes {
     | '/dashboard/campaigns/$campaignId/settings'
     | '/dashboard/campaigns/$campaignId'
     | '/dashboard/leads/labels'
+    | '/dashboard/leads/lists'
+    | '/dashboard/leads/lists/$id'
     | '/dashboard/projects/$projectId/collaborators'
   id:
     | '__root__'
@@ -124,6 +148,8 @@ export interface FileRouteTypes {
     | '/dashboard/campaigns/$campaignId/settings'
     | '/dashboard/campaigns/$campaignId/'
     | '/dashboard/leads/labels/'
+    | '/dashboard/leads/lists/'
+    | '/dashboard/leads/lists/$id/'
     | '/dashboard/projects/$projectId/collaborators/'
   fileRoutesById: FileRoutesById
 }
@@ -135,6 +161,8 @@ export interface RootRouteChildren {
   DashboardCampaignsCampaignIdSettingsRoute: typeof DashboardCampaignsCampaignIdSettingsRoute
   DashboardCampaignsCampaignIdIndexRoute: typeof DashboardCampaignsCampaignIdIndexRoute
   DashboardLeadsLabelsIndexRoute: typeof DashboardLeadsLabelsIndexRoute
+  DashboardLeadsListsIndexRoute: typeof DashboardLeadsListsIndexRoute
+  DashboardLeadsListsIdIndexRoute: typeof DashboardLeadsListsIdIndexRoute
   DashboardProjectsProjectIdCollaboratorsIndexRoute: typeof DashboardProjectsProjectIdCollaboratorsIndexRoute
 }
 
@@ -168,6 +196,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCampaignsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/leads/lists/': {
+      id: '/dashboard/leads/lists/'
+      path: '/dashboard/leads/lists'
+      fullPath: '/dashboard/leads/lists'
+      preLoaderRoute: typeof DashboardLeadsListsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/leads/labels/': {
       id: '/dashboard/leads/labels/'
       path: '/dashboard/leads/labels'
@@ -196,6 +231,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardProjectsProjectIdCollaboratorsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/leads/lists/$id/': {
+      id: '/dashboard/leads/lists/$id/'
+      path: '/dashboard/leads/lists/$id'
+      fullPath: '/dashboard/leads/lists/$id'
+      preLoaderRoute: typeof DashboardLeadsListsIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -209,6 +251,8 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardCampaignsCampaignIdIndexRoute:
     DashboardCampaignsCampaignIdIndexRoute,
   DashboardLeadsLabelsIndexRoute: DashboardLeadsLabelsIndexRoute,
+  DashboardLeadsListsIndexRoute: DashboardLeadsListsIndexRoute,
+  DashboardLeadsListsIdIndexRoute: DashboardLeadsListsIdIndexRoute,
   DashboardProjectsProjectIdCollaboratorsIndexRoute:
     DashboardProjectsProjectIdCollaboratorsIndexRoute,
 }

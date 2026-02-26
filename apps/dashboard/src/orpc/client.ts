@@ -41,8 +41,17 @@ const openApiLink = new OpenAPILink<ClientContext>(contract, {
 					data   : z.flattenError(zodError),
 					cause  : error.cause,
 				});
+			} else if (error instanceof ValidationError) {
+				const zodError = new z.ZodError(error.issues as z.core.$ZodIssue[]);
+
+				throw new ORPCError('INPUT_VALIDATION_FAILED', {
+					status : 422,
+					message: z.prettifyError(zodError),
+					data   : z.flattenError(zodError),
+					cause  : error.cause,
+				});
 			} else {
-				console.error(error);
+				console.error("orpc client error", error instanceof ValidationError);
 			}
 		}),
 	],

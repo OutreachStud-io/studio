@@ -4,5 +4,5 @@ export const urls = {
 		create  : "/dashboard/campaigns/create",
 		show    : (id: string) => `/dashboard/campaigns/${id}`,
 		settings: (id: string) => `/dashboard/campaigns/${id}/settings`,
-	}
+	},
 };

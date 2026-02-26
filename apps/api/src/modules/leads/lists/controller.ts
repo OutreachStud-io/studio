@@ -2,7 +2,7 @@ import {z} from "zod";
 
 import {faker} from "@faker-js/faker";
 
-import {Controller} from '@nestjs/common';
+import {Controller, Session} from '@nestjs/common';
 import {Implement, implement} from '@orpc/nest';
 
 import {schema} from "@outreachstudio/orpc/schema";
@@ -26,6 +26,18 @@ export class LeadsListsController {
 				);
 			});
 	}
+
+	@Implement(contract.leadsLists.show)
+	show(@Session() session: Record<string, any>) {
+		return implement(contract.leadsLists.show)
+			.handler(({input}) => {
+				const result = genData(1)[0];
+				if (!result) {
+					throw new Error('Failed to create lead label');
+				}
+				return result;
+			});
+	}
 }
 
 export const genData = (n: number) => {
@@ -33,10 +45,11 @@ export const genData = (n: number) => {
 
 	for (let i = 0; i < n; i++) {
 		results.push({
-			id       : faker.string.uuid(),
-			projectId: faker.string.uuid(),
-			name     : faker.company.name() + " List",
-			createdAt: faker.date.past(),
+			id         : faker.string.uuid(),
+			projectId  : faker.string.uuid(),
+			name       : faker.company.name() + " List",
+			description: faker.lorem.paragraph(),
+			createdAt  : faker.date.past(),
 		});
 	}
 

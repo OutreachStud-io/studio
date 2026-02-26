@@ -1,21 +1,14 @@
 import React from "react";
 
-import {Tag} from "lucide-react";
 import LeadESP from "@/components/leads/esp";
-import LeadLabel, {labelTextColor} from "@/components/leads/labels/label";
 import {DataTableColumnHeader} from "@/components/data-table/data-table-column-header";
-import {type Option} from "@/types/data-table";
-import LeadStatus, {statuses} from "@/components/leads/status";
-import {Progress} from "@/components/ui/progress";
+import {Checkbox} from "@/components/ui/checkbox.tsx";
 import {initialsFromName} from "@/lib/utils";
 
-import type {TListOutputResult} from "@/tanstack/query/leads/labels/list.ts";
-import type {TListOutputResultItem} from "@/tanstack/query/campaigns/leads/list.ts";
+import type {TListOutputResultItem} from "@/tanstack/query/leads/list.ts";
 
 
 import {type ColumnDef} from "@tanstack/react-table";
-
-import {Checkbox} from "@/components/ui/checkbox";
 
 import {
 	Avatar,
@@ -24,16 +17,12 @@ import {
 
 import {DataTableRowActions} from "./row-actions";
 
-type TCampaignLeadsColumnsProps = {
-	sequencesTotal: number;
-	labels: TListOutputResult["data"];
-}
 
-export const columns = (p: TCampaignLeadsColumnsProps): ColumnDef<TListOutputResultItem>[] => {
+export const columns = (sampleItem: TListOutputResultItem): ColumnDef<TListOutputResultItem>[] => {
 	return [
 		{
-			id           : "select",
-			size         : 40,
+			id           : "id",
+			size         : 60,
 			header       : ({table}) => (
 				<Checkbox
 					checked={
@@ -57,23 +46,23 @@ export const columns = (p: TCampaignLeadsColumnsProps): ColumnDef<TListOutputRes
 			enableHiding : false,
 		},
 		{
-			id                : "lead.email",
-			accessorFn        : (row) => row.lead,
+			id                : "email",
+			accessorFn        : (row) => row,
 			meta              : {
 				isGrow        : true,
 				filterType    : "string",
 				filterOperator: "contains",
-				label         : "Lead",
+				label         : "Email",
 				variant       : "text",
 			},
 			size              : undefined,
 			header            : ({column}) => (
-				<DataTableColumnHeader column={column} label="Lead"/>
+				<DataTableColumnHeader column={column} label="Email"/>
 			),
-			cell              : ({row}) => {
-				const cData = row.getValue<TListOutputResultItem["lead"]>("lead.email");
+			cell              : ({cell}) => {
+				const lead = cell.getValue<TListOutputResultItem>();
 
-				if (!cData) {
+				if (!lead) {
 					return (
 						<div className="text-muted-foreground">No lead data</div>
 					);
@@ -84,13 +73,13 @@ export const columns = (p: TCampaignLeadsColumnsProps): ColumnDef<TListOutputRes
 						<div>
 							<Avatar className="rounded-lg">
 								<AvatarFallback>{initialsFromName(
-									`${cData?.firstName}`, `${cData?.lastName}`
+									`${lead?.firstName || "-"}`, `${lead?.lastName || "-"}`
 								)}</AvatarFallback>
 							</Avatar>
 						</div>
 						<div>
-							<div className="font-medium">{cData?.firstName} {cData?.lastName}</div>
-							<div className="text-muted-foreground">{cData?.email}</div>
+							<div className="font-medium">{lead?.firstName || "-"} {lead?.lastName || "-"}</div>
+							<div className="text-muted-foreground">{lead?.email}</div>
 						</div>
 					</div>
 				);
@@ -100,115 +89,17 @@ export const columns = (p: TCampaignLeadsColumnsProps): ColumnDef<TListOutputRes
 			enableColumnFilter: true,
 		},
 		{
-			id                : "lead.esp",
-			accessorFn        : (row) => row.lead,
+			id                : "esp",
+			accessorFn        : (row) => row,
 			size              : 80,
 			header            : ({column}) => (
 				<DataTableColumnHeader column={column} label="ESP"/>
 			),
 			cell              : ({cell}) => {
-				const lead = cell.getValue<TListOutputResultItem["lead"]>();
+				const lead = cell.getValue<TListOutputResultItem>();
 
 				return (
 					<LeadESP className={"cursor-default"} esp={(lead?.esp || "other")}/>
-				);
-			},
-			enableSorting     : false,
-			enableHiding      : true,
-			enableColumnFilter: true,
-		},
-		{
-			id                : "status",
-			accessorFn        : (row) => row.status,
-			meta              : {
-				widthPercentage: 25,
-				label          : "Status",
-				variant        : "multiSelect",
-				options        : statuses.map((s) => ({
-					...s, className: "", iconClassName: s.className,
-				})) as Option[],
-				filterType     : "list",
-				filterOperator : "in",
-			},
-			size              : undefined,
-			maxSize           : 220,
-			minSize           : 100,
-			header            : ({column}) => (
-				<DataTableColumnHeader column={column} label="Status"/>
-			),
-			cell              : ({row}) => {
-				return row.original.status ? (
-					<div className="flex space-x-2">
-						<LeadStatus status={row.original.status}/>
-					</div>
-				) : (
-					<div className="text-muted-foreground">No status</div>
-				);
-			},
-			enableSorting     : true,
-			enableHiding      : true,
-			enableColumnFilter: true,
-		},
-		{
-			id                : "sequences",
-			accessorFn        : (row) => row.sequences?.count,
-			meta              : {
-				widthPercentage: 25,
-				label          : "Sequence",
-				variant        : "range",
-				range          : [0, p.sequencesTotal],
-			},
-			size              : undefined,
-			maxSize           : 220,
-			minSize           : 100,
-			header            : ({column}) => (
-				<DataTableColumnHeader column={column} label="Sequence"/>
-			),
-			cell              : ({row}) => {
-				const sequencesCount = row.original.sequences?.count || 0;
-				const sequencesTotal = row.original.sequences?.total || 0;
-
-				return (
-					<div className="flex items-center gap-1 max-w-[100px]">
-						<Progress value={sequencesCount / sequencesTotal * 100} className={"h-[6px] opacity-50"}/>
-						<p className={"text-xs text-muted-foreground"}>{sequencesCount} of {sequencesTotal}</p>
-					</div>
-				);
-			},
-			enableSorting     : true,
-			enableHiding      : true,
-			enableColumnFilter: true,
-		},
-		{
-			id                : "label",
-			accessorFn        : (row) => row.label,
-			meta              : {
-				widthPercentage: 25,
-				label          : "Label",
-				variant        : "multiSelect",
-
-				options: p.labels.map((label) => ({
-					value        : label.id,
-					label        : label.name,
-					icon         : Tag,
-					iconClassName: labelTextColor(label.type),
-				})) as Option[],
-			},
-			size              : undefined,
-			maxSize           : 220,
-			minSize           : 100,
-			header            : ({column}) => (
-				<DataTableColumnHeader column={column} label="Label"/>
-			),
-			cell              : ({row}) => {
-				const label = row.original.label;
-
-				return label ? (
-					<div className="flex items-center">
-						<LeadLabel label={label}/>
-					</div>
-				) : (
-					<div className="text-muted-foreground">No label</div>
 				);
 			},
 			enableSorting     : false,

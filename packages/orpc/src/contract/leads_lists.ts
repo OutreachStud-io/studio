@@ -7,6 +7,14 @@ import {dataWithPagination, filterSchema, paginationInputSchema} from "@/util";
 
 import schema, {selectSchema, listSchema} from '../schema/leads_lists';
 
+
+export const show = oc
+	.route({method: 'GET', path: `/{id}`})
+	.input(z.object({
+		id: z.uuid(),
+	}))
+	.output(selectSchema);
+
 export const create = oc
 	.route({
 		method: 'POST',
@@ -30,7 +38,9 @@ export const list = oc
 	)
 	.output(dataWithPagination(listSchema));
 
+export const remove = oc
+	.route({method: 'DELETE', path: `/{id}`});
 
 export default {
-	list, create
+	list, create, remove, show
 };

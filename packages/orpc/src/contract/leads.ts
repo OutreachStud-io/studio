@@ -1,7 +1,7 @@
 import {z} from "zod";
 import {oc} from '@orpc/contract';
 
-import {dataWithPagination, filterSchema, paginationInputSchema} from "@/util";
+import {dataWithPagination, filterSchema, paginationInputSchema, sortSchema} from "@/util";
 
 import schema, {selectSchema, listSchema} from '../schema/leads';
 
@@ -17,12 +17,22 @@ export const list = oc
 	.route({method: 'GET', path: `/`})
 	.input(
 		z.object({
-			projectId: z.string(),
+			listId: z.uuid(),
 		})
 			.extend(paginationInputSchema().shape)
+			.extend(
+				filterSchema(
+					["firstName", "lastName", "email", "esp"]
+				).shape
+			)
+			.extend(
+				sortSchema(
+					["firstName", "lastName", "email", "esp"]
+				).shape
+			)
 			.partial()
 			.required({
-				projectId: true
+				listId: true,
 			})
 	)
 	.output(dataWithPagination(listSchema));

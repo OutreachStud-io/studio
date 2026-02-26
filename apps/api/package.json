@@ -18,8 +18,8 @@
 	"dependencies": {
 		"@nestjs/common": "^11.1.8",
 		"@nestjs/config": "^4.0.2",
-		"@nestjs/core": "^11.0.8",
-		"@nestjs/platform-express": "^11.0.8",
+		"@nestjs/core": "^11.1.8",
+		"@nestjs/platform-express": "^11.1.8",
 		"@orpc/contract": "^1.11.2",
 		"@orpc/nest": "^1.11.2",
 		"@orpc/server": "^1.11.2",

@@ -36,19 +36,19 @@ function Page() {
 		input: {
 			id: campaignId,
 		},
-	})
+	});
 
 	const statsQuery = useCampaignsStatsQuery({
 		input: {
 			projectId : "cdc39c27-8e82-4107-a4c3-54c6b66fd327",
 			campaignId: campaignId,
-			filter    : {
-				period: {
-					preset: "last_90_days"
-				}
-			}
+			// filter    : {
+			// 	period: {
+			// 		preset: "last_90_days"
+			// 	}
+			// }
 		},
-	})
+	});
 
 	if (campaignQuery.isLoading || !campaignQuery.data) {
 		return <div>Loading...</div>;
@@ -59,7 +59,6 @@ function Page() {
 	return (
 		<SidebarLayout open={false}>
 			<AppBar
-				title={campaignQuery.data.name}
 				action={<Link
 					to={urls.campaigns.settings(campaignId)}
 					className={"flex items-center gap-2"}>
@@ -162,5 +161,5 @@ function Page() {
 				</Card>
 			</ScrollArea>
 		</SidebarLayout>
-	)
+	);
 }
