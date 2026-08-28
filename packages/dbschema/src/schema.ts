@@ -243,6 +243,12 @@ export const campaignsTableRelations = relations(
 );
 
 
+/**
+ * -------------------------------------------------------------------------
+ * Relation between a campaign and a lead list which holds the list of leads
+ * that will be contacted as part of the campaign
+ * -------------------------------------------------------------------------
+ */
 export const campaignleadListsTable = pgTable("campaign_lead_lists", {
 	id        : uuid('id').defaultRandom().primaryKey(),
 	listId    : uuid("list_id")
@@ -308,36 +314,6 @@ export const campaignNotificationsTableRelations = relations(
 export const TLeadStatusTypesEnum = pgEnum(
 	'lead_status_types_enum',
 	Object.values(leadStatusTypes) as unknown as readonly ['contacted', ...string[]]
-);
-
-/**
- * -------------------------------------------------------------------------
- * Relation between a campaign and a lead list which holds the list of leads
- * that will be contacted as part of the campaign
- * -------------------------------------------------------------------------
- */
-export const campaignLeadListsTable = pgTable("campaign_lead_lists", {
-	id        : uuid('id').defaultRandom().primaryKey(),
-	listId    : uuid("list_id")
-		.notNull()
-		.references(() => leadsListsTable.id, {
-			onDelete: "cascade"
-		}),
-	campaignId: uuid("campaign_id")
-		.notNull()
-		.references(() => campaignsTable.id, {
-			onDelete: "cascade"
-		}),
-});
-
-export const campaignLeadListsTableRelations = relations(
-	campaignLeadListsTable,
-	({many, one}) => ({
-		campaign: one(campaignsTable, {
-			fields    : [campaignLeadListsTable.campaignId],
-			references: [campaignsTable.id],
-		}),
-	}),
 );
 
 /**

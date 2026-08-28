@@ -27,9 +27,9 @@ export class LeadsListsController {
 			});
 	}
 
-	@Implement(contract.leadsLists.show)
-	show(@Session() session: Record<string, any>) {
-		return implement(contract.leadsLists.show)
+	@Implement(contract.leadsLists.get)
+	get(@Session() session: Record<string, any>) {
+		return implement(contract.leadsLists.get)
 			.handler(({input}) => {
 				const result = genData(1)[0];
 				if (!result) {

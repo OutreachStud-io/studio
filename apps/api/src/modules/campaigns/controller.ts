@@ -28,9 +28,9 @@ export class CampaignsController {
 			});
 	}
 
-	@Implement(contract.campaigns.show)
-	show() {
-		return implement(contract.campaigns.show)
+	@Implement(contract.campaigns.get)
+	get() {
+		return implement(contract.campaigns.get)
 			.handler(({input}) => {
 				return genCampaign();
 			});

@@ -41,13 +41,16 @@ export const list = oc
 	.output(listSchema);
 
 /**
- * Show Campaign Sequence Version
+ * Get Campaign Sequence Version
  */
-export const show = oc
-	.route({method: 'GET', path: `/:id`})
+export const get = oc
+	.route({method: 'GET', path: `/{id}`})
+	.input(z.object({
+		id: z.uuid(),
+	}))
 	.output(selectSchema);
 
 
 export default {
-	list, update, create, show,
+	list, update, create, get,
 };

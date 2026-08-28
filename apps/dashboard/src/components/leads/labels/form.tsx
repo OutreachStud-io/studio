@@ -42,7 +42,7 @@ export function LeadsLabelsCreateUpdateForm(
 	}: {
 		onSuccess?: () => void
 		className?: string;
-		record?: TContract["LeadsLabels"]["ShowOutput"]
+		record?: TContract["LeadsLabels"]["GetOutput"]
 	} & React.ComponentProps<"form">) {
 
 	const {mutate: createM} = useMutation(tanstackClient.leadsLabels.create.mutationOptions({}));
@@ -138,7 +138,7 @@ export function LeadsLabelsCreateUpdateForm(
 											name={field.name}
 											value={field.state.value || ""}
 											onValueChange={(v) => {
-												field.handleChange(v as unknown as TContract["LeadsLabels"]["ShowOutput"]["type"]);
+												field.handleChange(v as unknown as TContract["LeadsLabels"]["GetOutput"]["type"]);
 											}}
 										>
 											<SelectTrigger

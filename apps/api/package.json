@@ -4,7 +4,6 @@
 	"private": true,
 	"scripts": {
 		"build": "nest build",
-		"format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
 		"dev": "nest start --env-file .env --watch --port 3002",
 		"start:debug": "nest start --env-file .env --debug --watch",
 		"start:prod": "node dist/main",

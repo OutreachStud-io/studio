@@ -16,7 +16,7 @@ export function LeadsLabelsUpdateDialog({open, onOpenChange, onSuccess, record}:
 	open: boolean,
 	onOpenChange: (open: boolean) => void,
 	onSuccess?: () => void,
-	record: TContract["LeadsLabels"]["ShowOutput"]
+	record: TContract["LeadsLabels"]["GetOutput"]
 }) {
 	return (
 		<Sheet open={open} onOpenChange={onOpenChange}>

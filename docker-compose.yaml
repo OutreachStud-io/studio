@@ -1,28 +1,6 @@
 version: "3.9"
 
 services:
-    api:
-        build:
-            context: apps/dashboard
-            dockerfile: Dockerfile
-        ports:
-            - "3000:3000"
-        depends_on:
-            - postgres
-        networks:
-            - next-node
-
-    dashboard:
-        build:
-            context: apps/dashboard
-            dockerfile: Dockerfile
-        ports:
-            - "3000:3000"
-        depends_on:
-            - postgres
-        networks:
-            - next-node
-
     postgres:
         image: postgres
         restart: always

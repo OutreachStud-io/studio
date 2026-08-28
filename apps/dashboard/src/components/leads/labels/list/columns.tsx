@@ -11,11 +11,11 @@ import {DataTableRowActions} from "./row-actions";
 
 export const columns: (
 	p: {
-		setSelectedRecord: React.Dispatch<React.SetStateAction<TContract["LeadsLabels"]["ShowOutput"] | null>>;
+		setSelectedRecord: React.Dispatch<React.SetStateAction<TContract["LeadsLabels"]["GetOutput"] | null>>;
 		setEditSheetOpen: React.Dispatch<React.SetStateAction<boolean>>;
 		setDeleteConfirmOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	}
-) => ColumnDef<TContract["LeadsLabels"]["ShowOutput"]> [] = (p) => {
+) => ColumnDef<TContract["LeadsLabels"]["GetOutput"]> [] = (p) => {
 	return [
 		{
 			id           : "name",

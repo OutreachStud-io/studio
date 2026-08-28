@@ -26,7 +26,7 @@ import {columns} from "@/components/leads/list/columns";
 import {useAppStore} from "@/store/app.ts";
 
 import {
-	type TListOutputResult as TListShowOutputResult, getLeadsListsGetQueryOptions
+	type TListOutputResult as TListGetOutputResult, getLeadsListsGetQueryOptions
 } from "@/tanstack/query/leads/lists/get.ts";
 
 
@@ -41,7 +41,7 @@ import {ScrollArea} from "@/components/ui/scroll-area-custom.tsx";
 
 export const MyUrl = (id: string) => `/dashboard/leads/lists/${id}/`;
 
-const typedSearch = dataTableSearchOptions<TListShowOutputResult>();
+const typedSearch = dataTableSearchOptions<TListGetOutputResult>();
 
 export const Route = createFileRoute(
 	"/dashboard/leads/lists/$id/",

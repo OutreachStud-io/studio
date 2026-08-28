@@ -10,7 +10,7 @@ import {dataWithPagination, filterSchema, paginationInputSchema} from "@/util";
 
 import schema, {selectSchema, listSchema} from '../schema/leads_labels';
 
-export const show = oc
+export const get = oc
 	.route({method: 'GET', path: `/show/{id}`})
 	.input(z.object({
 		id: z.uuid(),
@@ -65,8 +65,8 @@ export type TLeadsLabels = {
 	ListInput: InferContractRouterInputs<typeof list>;
 	ListOutput: InferContractRouterOutputs<typeof list>;
 
-	ShowInput: InferContractRouterInputs<typeof show>;
-	ShowOutput: InferContractRouterOutputs<typeof show>;
+	GetInput: InferContractRouterInputs<typeof get>;
+	GetOutput: InferContractRouterOutputs<typeof get>;
 
 	CreateInput: InferContractRouterInputs<typeof create>;
 	CreateOutput: InferContractRouterOutputs<typeof create>;
@@ -76,5 +76,5 @@ export type TLeadsLabels = {
 };
 
 export default {
-	show, list, create, update, remove
+	get, list, create, update, remove
 };

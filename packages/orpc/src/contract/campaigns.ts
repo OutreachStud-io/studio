@@ -36,11 +36,11 @@ export const list = oc
 	.output(dataWithPagination(listSchema));
 
 /**
- * Show Campaign - returns a campaign
+ * Get Campaign - returns a campaign
  */
-export const show = oc
-	// show otherwise {id} will overwrite all other segments
-	// that we may have defined in the parent route
+export const get = oc
+	// the /show/ segment is required, otherwise {id} would overwrite all other
+	// segments that we may have defined in the parent route
 	.route({method: 'GET', path: `/show/{id}`})
 	.input(z.object({
 		id: z.uuid(),
@@ -53,5 +53,5 @@ export type TCampaigns = {
 };
 
 export default {
-	list, create, show,
+	list, create, get,
 };

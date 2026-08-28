@@ -46,7 +46,7 @@ export const Route = createFileRoute('/dashboard/leads/labels/')({
 function Page() {
 	const appStore = useAppStore();
 
-	const [selectedRecord, setSelectedRecord] = React.useState<TContract["LeadsLabels"]["ShowOutput"] | null>(null);
+	const [selectedRecord, setSelectedRecord] = React.useState<TContract["LeadsLabels"]["GetOutput"] | null>(null);
 	const [editSheetOpen, setEditSheetOpen] = React.useState(false);
 	const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
 
