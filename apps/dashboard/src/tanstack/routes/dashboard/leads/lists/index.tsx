@@ -18,7 +18,7 @@ import {createFileRoute} from "@tanstack/react-router";
 
 import {useAppStore} from "@/store/app.ts";
 
-import {useSuspenseLeadsListsQuery, type TListOutputResultItem} from "@/tanstack/query/leads/lists/list.ts";
+import {useSuspenseLeadsListsListQuery, type TListOutputResultItem} from "@/tanstack/query/leads/lists/list.ts";
 
 import {AppBar} from "@/components/appbar/bar";
 import SidebarLayout from "@/components/sidebar/layout";
@@ -45,7 +45,7 @@ function Page() {
 	const [editSheetOpen, setEditSheetOpen] = React.useState(false);
 	const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
 
-	const {refetch, isLoading, data} = useSuspenseLeadsListsQuery({
+	const {refetch, isLoading, data} = useSuspenseLeadsListsListQuery({
 		input: {
 			projectId: `${appStore.selectedProjectId}`
 		}

@@ -3,4 +3,4 @@ packages:
   - packages/*
 
 catalog:
-  zod: 4.1.12
+  zod: 4.5.1

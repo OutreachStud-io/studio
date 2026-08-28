@@ -7,6 +7,7 @@ import {useSuspenseQuery} from "@tanstack/react-query";
 import {Link, createFileRoute} from '@tanstack/react-router';
 
 import {urls} from "@/lib/urls";
+import {useAppStore} from "@/store/app.ts";
 
 import {Button} from "@/components/ui/button";
 import {AppBar} from "@/components/appbar/bar";
@@ -38,7 +39,7 @@ const campaignsSearchSchema = z.object({
 			.catch(0)
 			.optional(),
 	}).optional(),
-	projectId : z.uuid()
+	projectId : z.uuid().optional(),
 });
 
 const campaignsQueryOptions = (
@@ -53,18 +54,28 @@ const campaignsStatsQueryOptions = (
 	projectId: projectId,
 });
 
+// the sidebar links here without a projectId, so fall back to the selected
+// project rather than letting validateSearch leave the loader without one
+const resolveProjectId = (
+	projectId?: string
+) => projectId ?? useAppStore.getState().selectedProjectId;
+
 export const Route = createFileRoute('/dashboard/campaigns/')({
 	component     : Page,
 	validateSearch: campaignsSearchSchema,
 	loaderDeps    : ({search}) => (search),
 	loader        : async ({params, context, deps}) => {
+		const projectId = resolveProjectId(deps.projectId);
+
 		// seed the cache
-		await context.queryClient.ensureQueryData(
-			campaignsQueryOptions(deps.projectId)
-		);
-		await context.queryClient.ensureQueryData(
-			campaignsStatsQueryOptions(deps.projectId)
-		);
+		if (projectId) {
+			await context.queryClient.ensureQueryData(
+				campaignsQueryOptions(projectId)
+			);
+			await context.queryClient.ensureQueryData(
+				campaignsStatsQueryOptions(projectId)
+			);
+		}
 
 		return {
 			crumbs: crumbs(
@@ -76,14 +87,15 @@ export const Route = createFileRoute('/dashboard/campaigns/')({
 });
 
 function Page() {
-	const search = Route.useSearch();
+	const search    = Route.useSearch();
+	const projectId = resolveProjectId(search.projectId) ?? "";
 
 	const {data: campaigns} = useSuspenseQuery(
-		campaignsQueryOptions(search.projectId)
+		campaignsQueryOptions(projectId)
 	);
 
 	const {data: campaignsStats} = useSuspenseQuery(
-		campaignsStatsQueryOptions(search.projectId)
+		campaignsStatsQueryOptions(projectId)
 	);
 
 	return (
