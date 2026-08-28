@@ -9,7 +9,7 @@ import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandL
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
 
 import {useAppStore} from "@/store/app.ts";
-import {useLeadsListsQuery} from "@/tanstack/query/leads/lists/list.ts";
+import {useLeadsListsListQuery} from "@/tanstack/query/leads/lists/list.ts";
 
 
 interface PickerComboboxProps {
@@ -36,7 +36,7 @@ export function LeadsListPickerCombobox(
 
 	const appStore = useAppStore();
 
-	const query = useLeadsListsQuery({
+	const query = useLeadsListsListQuery({
 		input: {
 			projectId: `${appStore.selectedProjectId}`,
 			paginate : {
