@@ -3,6 +3,7 @@ import React from "react";
 import type {TContract} from "@outreachstudio/orpc/contract";
 import {type ColumnDef} from "@tanstack/react-table";
 
+import type {DataTableFeatures} from "@/lib/data-table-features";
 import Label from "@/components/leads/labels/label.tsx";
 import {DataTableColumnHeader} from "@/components/data-table/data-table-column-header";
 
@@ -15,7 +16,7 @@ export const columns: (
 		setEditSheetOpen: React.Dispatch<React.SetStateAction<boolean>>;
 		setDeleteConfirmOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	}
-) => ColumnDef<TContract["LeadsLabels"]["GetOutput"]> [] = (p) => {
+) => ColumnDef<DataTableFeatures, TContract["LeadsLabels"]["GetOutput"]> [] = (p) => {
 	return [
 		{
 			id           : "name",

@@ -1,5 +1,6 @@
+import type {DataTableInstance} from "@/lib/data-table-features";
 import Label from "@/components/leads/labels/label.tsx";
-import {type Table} from "@tanstack/react-table";
+import {type RowData, type Table} from "@tanstack/react-table";
 import {X} from "lucide-react";
 
 import {Button} from "@/components/ui/button";
@@ -15,11 +16,11 @@ import {DataTableViewOptions} from "@/components/general/data-table/view-options
 
 import {schema} from "@outreachstudio/orpc/schema";
 
-interface LeadsListToolbarProps<TData> {
-	table: Table<TData>;
+interface LeadsListToolbarProps<TData extends RowData> {
+	table: DataTableInstance<TData>;
 }
 
-export function LeadsListToolbar<TData>(
+export function LeadsListToolbar<TData extends RowData>(
 	{
 		table,
 	}: LeadsListToolbarProps<TData>
@@ -33,7 +34,7 @@ export function LeadsListToolbar<TData>(
 			},
 		},
 	});
-	const isFiltered = table.getState().columnFilters.length > 0;
+	const isFiltered = table.state.columnFilters.length > 0;
 
 	const statusColumn = table.getColumn("status");
 	const sequencesCountColumn = table.getColumn("sequence");

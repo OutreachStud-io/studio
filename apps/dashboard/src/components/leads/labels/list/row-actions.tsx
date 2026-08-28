@@ -1,6 +1,7 @@
-import {type Row} from "@tanstack/react-table";
+import {type Row, type RowData} from "@tanstack/react-table";
 import {MoreHorizontal} from "lucide-react";
 
+import type {DataTableFeatures} from "@/lib/data-table-features";
 import {Button} from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -10,13 +11,13 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-interface DataTableRowActionsProps<TData> {
-	row: Row<TData>;
+interface DataTableRowActionsProps<TData extends RowData> {
+	row: Row<DataTableFeatures, TData>;
 	onEdit?: (data: TData) => void;
 	onDelete?: (data: TData) => void;
 }
 
-export function DataTableRowActions<TData>(
+export function DataTableRowActions<TData extends RowData>(
 	{
 		row,
 		onEdit,

@@ -1,6 +1,7 @@
 import React from "react";
 
 import {Tag} from "lucide-react";
+import type {DataTableFeatures} from "@/lib/data-table-features";
 import LeadESP from "@/components/leads/esp";
 import LeadLabel, {labelTextColor} from "@/components/leads/labels/label";
 import {DataTableColumnHeader} from "@/components/data-table/data-table-column-header";
@@ -27,7 +28,7 @@ type TCampaignLeadsColumnsProps = {
 	labels: TListOutputResult["data"];
 }
 
-export const columns = (p: TCampaignLeadsColumnsProps): ColumnDef<TListOutputResultItem>[] => {
+export const columns = (p: TCampaignLeadsColumnsProps): ColumnDef<DataTableFeatures, TListOutputResultItem>[] => {
 	return [
 		// {
 		// 	id           : "select",

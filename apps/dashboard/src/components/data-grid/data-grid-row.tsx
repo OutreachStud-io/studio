@@ -1,16 +1,17 @@
 "use client";
 
-import { flexRender, type Row } from "@tanstack/react-table";
+import {flexRender, type Row, type RowData} from "@tanstack/react-table";
 import type { Virtualizer } from "@tanstack/react-virtual";
 import * as React from "react";
+import type {DataGridFeatures} from "@/lib/data-grid-features";
 import { useComposedRefs } from "@/lib/compose-refs";
 import { getRowHeightValue } from "@/lib/data-grid";
 import { getCommonPinningStyles } from "@/lib/data-table";
 import { cn } from "@/lib/utils";
 import type { CellPosition, RowHeightValue } from "@/types/data-grid";
 
-interface DataGridRowProps<TData> extends React.ComponentProps<"div"> {
-	row: Row<TData>;
+interface DataGridRowProps<TData extends RowData> extends React.ComponentProps<"div"> {
+	row: Row<DataGridFeatures, TData>;
 	rowVirtualizer: Virtualizer<HTMLDivElement, Element>;
 	virtualRowIndex: number;
 	rowMapRef: React.RefObject<Map<number, HTMLDivElement>>;
@@ -48,7 +49,7 @@ export const DataGridRow = React.memo(DataGridRowImpl, (prev, next) => {
 	return false;
 }) as typeof DataGridRowImpl;
 
-function DataGridRowImpl<TData>({
+function DataGridRowImpl<TData extends RowData>({
 									row,
 									virtualRowIndex,
 									rowVirtualizer,

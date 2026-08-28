@@ -1,6 +1,8 @@
 "use client";
 
-import type { Table, TableMeta } from "@tanstack/react-table";
+import type {RowData, Table, TableMeta} from "@tanstack/react-table";
+import type {DataGridFeatures} from "@/lib/data-grid-features";
+import type {DataGridMeta} from "@/types/data-grid";
 import { CopyIcon, EraserIcon, Trash2Icon } from "lucide-react";
 import * as React from "react";
 import { toast } from "sonner";
@@ -14,11 +16,11 @@ import {
 import { parseCellKey } from "@/lib/data-grid";
 import type { UpdateCell } from "@/types/data-grid";
 
-interface DataGridContextMenuProps<TData> {
-	table: Table<TData>;
+interface DataGridContextMenuProps<TData extends RowData> {
+	table: Table<DataGridFeatures, TData>;
 }
 
-export function DataGridContextMenu<TData>({
+export function DataGridContextMenu<TData extends RowData>({
 											   table,
 										   }: DataGridContextMenuProps<TData>) {
 	const meta = table.options.meta;
@@ -44,17 +46,17 @@ export function DataGridContextMenu<TData>({
 	);
 }
 
-interface ContextMenuProps<TData>
+interface ContextMenuProps<TData extends RowData>
 	extends Pick<
-		TableMeta<TData>,
+		DataGridMeta,
 		| "dataGridRef"
 		| "onContextMenuOpenChange"
 		| "selectionState"
 		| "onDataUpdate"
 		| "onRowsDelete"
 	>,
-		Required<Pick<TableMeta<TData>, "contextMenu">> {
-	table: Table<TData>;
+		Required<Pick<DataGridMeta, "contextMenu">> {
+	table: Table<DataGridFeatures, TData>;
 }
 
 const ContextMenu = React.memo(ContextMenuImpl, (prev, next) => {
@@ -70,7 +72,7 @@ const ContextMenu = React.memo(ContextMenuImpl, (prev, next) => {
 	return true;
 }) as typeof ContextMenuImpl;
 
-function ContextMenuImpl<TData>({
+function ContextMenuImpl<TData extends RowData>({
 									table,
 									dataGridRef,
 									contextMenu,

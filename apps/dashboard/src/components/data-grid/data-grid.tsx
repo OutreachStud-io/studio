@@ -1,7 +1,7 @@
 "use client";
 
 import {ScrollArea} from "@/components/ui/scroll-area-custom.tsx";
-import {flexRender} from "@tanstack/react-table";
+import {flexRender, type RowData} from "@tanstack/react-table";
 import {Plus} from "lucide-react";
 import * as React from "react";
 import {DataGridColumnHeader} from "@/components/data-grid/data-grid-column-header";
@@ -12,13 +12,13 @@ import type {useDataGrid} from "@/hooks/use-data-grid";
 import {getCommonPinningStyles} from "@/lib/data-table";
 import {cn} from "@/lib/utils";
 
-interface DataGridProps<TData>
+interface DataGridProps<TData extends RowData>
 	extends ReturnType<typeof useDataGrid<TData>>,
 		React.ComponentProps<"div"> {
 	height?: number;
 }
 
-export function DataGrid<TData>(
+export function DataGrid<TData extends RowData>(
 	{
 		dataGridRef,
 		headerRef,
@@ -98,7 +98,7 @@ export function DataGrid<TData>(
 							className="flex w-full"
 						>
 							{headerGroup.headers.map((header, colIndex) => {
-								const sorting = table.getState().sorting;
+								const sorting = table.state.sorting;
 								const currentSort = sorting.find(
 									(sort) => sort.id === header.column.id,
 								);

@@ -1,12 +1,13 @@
 "use client";
 
-import type { Cell, Table } from "@tanstack/react-table";
+import type {Cell, RowData, Table} from "@tanstack/react-table";
 import * as React from "react";
+import type {DataGridFeatures} from "@/lib/data-grid-features";
 import { cn } from "@/lib/utils";
 
-interface DataGridCellWrapperProps<TData> extends React.ComponentProps<"div"> {
-	cell: Cell<TData, unknown>;
-	table: Table<TData>;
+interface DataGridCellWrapperProps<TData extends RowData> extends React.ComponentProps<"div"> {
+	cell: Cell<DataGridFeatures, TData, unknown>;
+	table: Table<DataGridFeatures, TData>;
 	rowIndex: number;
 	columnId: string;
 	isEditing: boolean;
@@ -14,7 +15,7 @@ interface DataGridCellWrapperProps<TData> extends React.ComponentProps<"div"> {
 	isSelected: boolean;
 }
 
-export function DataGridCellWrapper<TData>({
+export function DataGridCellWrapper<TData extends RowData>({
 											   table,
 											   rowIndex,
 											   columnId,

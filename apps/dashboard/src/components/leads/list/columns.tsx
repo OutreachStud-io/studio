@@ -1,5 +1,6 @@
 import React from "react";
 
+import type {DataTableFeatures} from "@/lib/data-table-features";
 import LeadESP from "@/components/leads/esp";
 import {DataTableColumnHeader} from "@/components/data-table/data-table-column-header";
 import {Checkbox} from "@/components/ui/checkbox.tsx";
@@ -18,7 +19,7 @@ import {
 import {DataTableRowActions} from "./row-actions";
 
 
-export const columns = (sampleItem: TListOutputResultItem): ColumnDef<TListOutputResultItem>[] => {
+export const columns = (sampleItem: TListOutputResultItem): ColumnDef<DataTableFeatures, TListOutputResultItem>[] => {
 	return [
 		{
 			id           : "id",

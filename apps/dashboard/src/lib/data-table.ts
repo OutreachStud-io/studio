@@ -1,4 +1,4 @@
-import type {Column} from "@tanstack/react-table";
+import type {ColumnPinningPosition} from "@tanstack/react-table";
 import {dataTableConfig} from "src/config/data-table";
 import type {
 	ExtendedColumnFilter,
@@ -6,35 +6,50 @@ import type {
 	FilterVariant,
 } from "src/types/data-table";
 
-export function getCommonPinningStyles<TData>(
+/**
+ * The column APIs {@link getCommonPinningStyles} needs, which a table only
+ * exposes once it registers `columnPinningFeature`, `columnSizingFeature` and
+ * `columnOrderingFeature`. Kept structural so both the data-table and the
+ * data-grid feature sets can pass their own columns.
+ */
+type PinnableColumn = {
+	getIsPinned: () => ColumnPinningPosition;
+	getIsFirstColumn: (position?: ColumnPinningPosition | "center") => boolean;
+	getIsLastColumn: (position?: ColumnPinningPosition | "center") => boolean;
+	getStart: (position?: ColumnPinningPosition | "center") => number;
+	getAfter: (position?: ColumnPinningPosition | "center") => number;
+	getSize: () => number;
+};
+
+export function getCommonPinningStyles(
 	{
 		column,
 		withBorder = false,
 	}: {
-		column: Column<TData>;
+		column: PinnableColumn;
 		withBorder?: boolean;
 	}): React.CSSProperties {
 	const isPinned = column.getIsPinned();
-	const isLastLeftPinnedColumn =
-			  isPinned === "left" && column.getIsLastColumn("left");
-	const isFirstRightPinnedColumn =
-			  isPinned === "right" && column.getIsFirstColumn("right");
+	const isLastStartPinnedColumn =
+			  isPinned === "start" && column.getIsLastColumn("start");
+	const isFirstEndPinnedColumn =
+			  isPinned === "end" && column.getIsFirstColumn("end");
 
 	return {
-		boxShadow : withBorder
-			? isLastLeftPinnedColumn
+		boxShadow      : withBorder
+			? isLastStartPinnedColumn
 				? "-4px 0 4px -4px var(--border) inset"
-				: isFirstRightPinnedColumn
+				: isFirstEndPinnedColumn
 					? "4px 0 4px -4px var(--border) inset"
 					: undefined
 			: undefined,
-		left      : isPinned === "left" ? `${column.getStart("left")}px` : undefined,
-		right     : isPinned === "right" ? `${column.getAfter("right")}px` : undefined,
-		opacity   : isPinned ? 0.97 : 1,
-		position  : isPinned ? "sticky" : "relative",
-		background: isPinned ? "var(--background)" : "var(--background)",
-		width     : column.getSize(),
-		zIndex    : isPinned ? 1 : undefined,
+		insetInlineStart: isPinned === "start" ? `${column.getStart("start")}px` : undefined,
+		insetInlineEnd  : isPinned === "end" ? `${column.getAfter("end")}px` : undefined,
+		opacity         : isPinned ? 0.97 : 1,
+		position        : isPinned ? "sticky" : "relative",
+		background      : isPinned ? "var(--background)" : "var(--background)",
+		width           : column.getSize(),
+		zIndex          : isPinned ? 1 : undefined,
 	};
 }
 
