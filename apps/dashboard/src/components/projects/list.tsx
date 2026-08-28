@@ -36,7 +36,7 @@ export function ProjectsList(
 	{}: {}
 ) {
 	const appStore = useAppStore();
-	const navigate = useNavigate({from: '/dashboard'});
+	const navigate = useNavigate({from: '/dashboard/'});
 	const screenSize = useScreenSize();
 
 

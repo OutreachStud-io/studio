@@ -68,17 +68,20 @@ export function LeadsLabelsCreateUpdateForm(
 								case "INPUT_VALIDATION_FAILED":
 									const fields = error.data?.fieldErrors;
 									if (fields) {
+										const fieldErrors: Partial<Record<keyof TValue, {message: string}[]>> = {};
+
 										for (const fieldName in fields) {
-											const fieldErrors = fields[fieldName as keyof typeof fields];
-											if (fieldErrors && fieldErrors.length > 0) {
-												formApi.fieldInfo[fieldName as keyof TValue]
-													.instance?.setErrorMap({
-													onSubmit: [{
-														message: fieldErrors.join(", "),
-													}],
-												});
+											const messages = fields[fieldName as keyof typeof fields];
+											if (messages && messages.length > 0) {
+												fieldErrors[fieldName as keyof TValue] = [{
+													message: messages.join(", "),
+												}];
 											}
 										}
+
+										formApi.setErrorMap({
+											onSubmit: {fields: fieldErrors},
+										});
 									}
 									break;
 							}
