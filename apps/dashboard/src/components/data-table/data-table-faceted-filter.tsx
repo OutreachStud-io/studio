@@ -1,9 +1,10 @@
 "use client";
 
-import type {Column} from "@tanstack/react-table";
+import type {CellData, Column, RowData} from "@tanstack/react-table";
 import {Check, PlusCircle, XCircle} from "lucide-react";
 import * as React from "react";
 
+import type {DataTableFeatures} from "@/lib/data-table-features";
 import {Badge} from "src/components/ui/badge";
 import {Button} from "src/components/ui/button";
 import {
@@ -24,14 +25,14 @@ import {Separator} from "src/components/ui/separator";
 import {cn} from "src/lib/utils";
 import type {Option} from "src/types/data-table";
 
-interface DataTableFacetedFilterProps<TData, TValue> {
-	column?: Column<TData, TValue>;
+interface DataTableFacetedFilterProps<TData extends RowData, TValue extends CellData> {
+	column?: Column<DataTableFeatures, TData, TValue>;
 	title?: string;
 	options: Option[];
 	multiple?: boolean;
 }
 
-export function DataTableFacetedFilter<TData, TValue>(
+export function DataTableFacetedFilter<TData extends RowData, TValue extends CellData>(
 	{
 		column,
 		title,

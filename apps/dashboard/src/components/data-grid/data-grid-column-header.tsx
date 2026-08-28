@@ -1,8 +1,10 @@
 "use client";
 
 import type {
+	CellData,
 	ColumnSort,
 	Header,
+	RowData,
 	SortDirection,
 	SortingState,
 	Table,
@@ -36,6 +38,7 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import type {DataGridFeatures, DataGridInstance} from "@/lib/data-grid-features";
 import {cn} from "@/lib/utils";
 import type {Cell} from "@/types/data-grid";
 
@@ -63,13 +66,13 @@ function getColumnVariant(variant?: Cell["variant"]): {
 	}
 }
 
-interface DataGridColumnHeaderProps<TData, TValue>
+interface DataGridColumnHeaderProps<TData extends RowData, TValue extends CellData>
 	extends React.ComponentProps<typeof DropdownMenuTrigger> {
-	header: Header<TData, TValue>;
-	table: Table<TData>;
+	header: Header<DataGridFeatures, TData, TValue>;
+	table: DataGridInstance<TData>;
 }
 
-export function DataGridColumnHeader<TData, TValue>({
+export function DataGridColumnHeader<TData extends RowData, TValue extends CellData>({
 														header,
 														table,
 														className,
@@ -84,14 +87,14 @@ export function DataGridColumnHeader<TData, TValue>({
 			: column.id;
 
 	const isAnyColumnResizing =
-			  table.getState().columnSizingInfo.isResizingColumn;
+			  table.state.columnResizing.isResizingColumn;
 
 	const cellVariant = column.columnDef.meta?.cell;
 	const columnVariant = getColumnVariant(cellVariant?.variant);
 
 	const pinnedPosition = column.getIsPinned();
-	const isPinnedLeft = pinnedPosition === "left";
-	const isPinnedRight = pinnedPosition === "right";
+	const isPinnedStart = pinnedPosition === "start";
+	const isPinnedEnd = pinnedPosition === "end";
 
 	const onSortingChange = React.useCallback(
 		(direction: SortDirection) => {
@@ -122,12 +125,12 @@ export function DataGridColumnHeader<TData, TValue>({
 		);
 	}, [column.id, table]);
 
-	const onLeftPin = React.useCallback(() => {
-		column.pin("left");
+	const onStartPin = React.useCallback(() => {
+		column.pin("start");
 	}, [column]);
 
-	const onRightPin = React.useCallback(() => {
-		column.pin("right");
+	const onEndPin = React.useCallback(() => {
+		column.pin("end");
 	}, [column]);
 
 	const onUnpin = React.useCallback(() => {
@@ -205,7 +208,7 @@ export function DataGridColumnHeader<TData, TValue>({
 						<>
 							{column.getCanSort() && <DropdownMenuSeparator/>}
 
-							{isPinnedLeft ? (
+							{isPinnedStart ? (
 								<DropdownMenuItem
 									className="[&_svg]:text-muted-foreground"
 									onClick={onUnpin}
@@ -216,13 +219,13 @@ export function DataGridColumnHeader<TData, TValue>({
 							) : (
 								<DropdownMenuItem
 									className="[&_svg]:text-muted-foreground"
-									onClick={onLeftPin}
+									onClick={onStartPin}
 								>
 									<PinIcon/>
 									Pin to left
 								</DropdownMenuItem>
 							)}
-							{isPinnedRight ? (
+							{isPinnedEnd ? (
 								<DropdownMenuItem
 									className="[&_svg]:text-muted-foreground"
 									onClick={onUnpin}
@@ -233,7 +236,7 @@ export function DataGridColumnHeader<TData, TValue>({
 							) : (
 								<DropdownMenuItem
 									className="[&_svg]:text-muted-foreground"
-									onClick={onRightPin}
+									onClick={onEndPin}
 								>
 									<PinIcon/>
 									Pin to right
@@ -282,17 +285,17 @@ const DataGridColumnResizer = React.memo(
 	},
 ) as typeof DataGridColumnResizerImpl;
 
-interface DataGridColumnResizerProps<TData, TValue>
+interface DataGridColumnResizerProps<TData extends RowData, TValue extends CellData>
 	extends DataGridColumnHeaderProps<TData, TValue> {
 	label: string;
 }
 
-function DataGridColumnResizerImpl<TData, TValue>({
+function DataGridColumnResizerImpl<TData extends RowData, TValue extends CellData>({
 													  header,
 													  table,
 													  label,
 												  }: DataGridColumnResizerProps<TData, TValue>) {
-	const defaultColumnDef = table._getDefaultColumnDef();
+	const defaultColumnDef = table.getDefaultColumnDef();
 
 	const onDoubleClick = React.useCallback(() => {
 		header.column.resetSize();

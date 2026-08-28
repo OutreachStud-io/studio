@@ -2,11 +2,9 @@ import React from "react";
 
 import {debounce} from "remeda";
 
-import {
-	flexRender,
-	type Table as TanstackTable,
-} from "@tanstack/react-table";
+import {flexRender, type RowData, type Table as TanstackTable} from "@tanstack/react-table";
 
+import type {DataTableFeatures, DataTableInstance} from "@/lib/data-table-features";
 import {DataTablePagination} from "src/components/data-table/data-table-pagination";
 import {
 	Table,
@@ -20,14 +18,14 @@ import {getCommonPinningStyles} from "src/lib/data-table";
 import {calculateTableSizing, cn} from "src/lib/utils";
 import type {ExtendedRow} from "@/types//data-table";
 
-interface DataTableProps<TData> extends React.ComponentProps<"div"> {
-	table: TanstackTable<TData>;
+interface DataTableProps<TData extends RowData> extends React.ComponentProps<"div"> {
+	table: DataTableInstance<TData>;
 	actionBar?: React.ReactNode;
 	hidePagination?: boolean;
 	hideThead?: boolean;
 }
 
-export function DataTable<TData>(
+export function DataTable<TData extends RowData>(
 	{
 		table,
 		actionBar,
@@ -47,7 +45,7 @@ export function DataTable<TData>(
 		const debouncedResize = debounce((width: number) => {
 			const newSizing = calculateTableSizing(headers, width);
 
-			const currentSizing = table.getState().columnSizing;
+			const currentSizing = table.state.columnSizing;
 			const hasChanged = Object.keys(newSizing).some(
 				(key) => newSizing[key] !== currentSizing[key],
 			);

@@ -1,8 +1,9 @@
 "use client";
 
-import type {Column} from "@tanstack/react-table";
+import type {Column, RowData} from "@tanstack/react-table";
 import {PlusCircle, XCircle} from "lucide-react";
 import * as React from "react";
+import type {DataTableFeatures} from "@/lib/data-table-features";
 import {Button} from "src/components/ui/button";
 import {Input} from "src/components/ui/input";
 import {Label} from "src/components/ui/label";
@@ -46,12 +47,12 @@ function parseValuesAsNumbers(value: unknown): RangeValue | undefined {
 	return undefined;
 }
 
-interface DataTableSliderFilterProps<TData> {
-	column: Column<TData, unknown>;
+interface DataTableSliderFilterProps<TData extends RowData> {
+	column: Column<DataTableFeatures, TData, unknown>;
 	title?: string;
 }
 
-export function DataTableSliderFilter<TData>({
+export function DataTableSliderFilter<TData extends RowData>({
 												 column,
 												 title,
 											 }: DataTableSliderFilterProps<TData>) {

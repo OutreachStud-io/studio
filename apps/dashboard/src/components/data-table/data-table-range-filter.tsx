@@ -1,15 +1,16 @@
 "use client";
 
-import type { Column } from "@tanstack/react-table";
+import type {Column, RowData} from "@tanstack/react-table";
 import * as React from "react";
 
+import type {DataTableFeatures} from "@/lib/data-table-features";
 import { Input } from "src/components/ui/input";
 import { cn } from "src/lib/utils";
 import type { ExtendedColumnFilter } from "src/types/data-table";
 
-interface DataTableRangeFilterProps<TData> extends React.ComponentProps<"div"> {
+interface DataTableRangeFilterProps<TData extends RowData> extends React.ComponentProps<"div"> {
   filter: ExtendedColumnFilter<TData>;
-  column: Column<TData>;
+  column: Column<DataTableFeatures, TData>;
   inputId: string;
   onFilterUpdate: (
     filterId: string,
@@ -17,7 +18,7 @@ interface DataTableRangeFilterProps<TData> extends React.ComponentProps<"div"> {
   ) => void;
 }
 
-export function DataTableRangeFilter<TData>({
+export function DataTableRangeFilter<TData extends RowData>({
   filter,
   column,
   inputId,

@@ -1,8 +1,9 @@
 "use client";
 
-import type { Table } from "@tanstack/react-table";
+import type {RowData, Table} from "@tanstack/react-table";
 import { Check, Settings2 } from "lucide-react";
 import * as React from "react";
+import type {DataGridFeatures} from "@/lib/data-grid-features";
 import { Button } from "src/components/ui/button";
 import {
   Command,
@@ -19,12 +20,12 @@ import {
 } from "src/components/ui/popover";
 import { cn } from "src/lib/utils";
 
-interface DataGridViewMenuProps<TData>
+interface DataGridViewMenuProps<TData extends RowData>
   extends React.ComponentProps<typeof PopoverContent> {
-  table: Table<TData>;
+  table: Table<DataGridFeatures, TData>;
 }
 
-export function DataGridViewMenu<TData>({
+export function DataGridViewMenu<TData extends RowData>({
   table,
   ...props
 }: DataGridViewMenuProps<TData>) {

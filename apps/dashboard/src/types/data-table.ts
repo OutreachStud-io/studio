@@ -1,35 +1,30 @@
 import type {ColumnSort, Row, RowData} from "@tanstack/react-table";
-import {type CSSProperties} from "react";
 import type {DataTableConfig} from "src/config/data-table";
 import type {FilterItemSchema} from "src/lib/parsers";
 
 import {type TFilterType, type TFilterOperator} from "@outreachstudio/orpc/util";
 
-declare module "@tanstack/react-table" {
-	// biome-ignore lint/correctness/noUnusedVariables: TData is used in the TableMeta interface
-	interface TableMeta<TData extends unknown> {
-		queryKeys?: QueryKeys;
-		getRowStyles?: (row: Row<TData>) => CSSProperties;
-	}
+import type {DataTableFeatures} from "@/lib/data-table-features";
 
-	// biome-ignore lint/correctness/noUnusedVariables: TData and TValue are used in the ColumnMeta interface
-	// @ts-ignore
-	interface ColumnMeta<TData extends RowData, TValue> {
-		label?: string;
-		placeholder?: string;
-		variant?: FilterVariant;
-		options?: Option[];
-		range?: [number, number];
-		unit?: string;
-		icon?: React.FC<React.SVGProps<SVGSVGElement>>;
-		isGrow?: boolean;
-		widthPercentage?: number;
-		filterType?: TFilterType;
-		filterOperator?: TFilterOperator;
-	}
+export interface DataTableMeta {
+	queryKeys?: QueryKeys;
 }
 
-export interface ExtendedRow<TData> extends Row<TData> {
+export interface DataTableColumnMeta {
+	label?: string;
+	placeholder?: string;
+	variant?: FilterVariant;
+	options?: Option[];
+	range?: [number, number];
+	unit?: string;
+	icon?: React.FC<React.SVGProps<SVGSVGElement>>;
+	isGrow?: boolean;
+	widthPercentage?: number;
+	filterType?: TFilterType;
+	filterOperator?: TFilterOperator;
+}
+
+export interface ExtendedRow<TData extends RowData> extends Row<DataTableFeatures, TData> {
 	cosmetics?: {
 		striped?: boolean;
 	};
@@ -65,7 +60,7 @@ export interface ExtendedColumnFilter<TData> extends FilterItemSchema {
 	id: Extract<keyof TData, string>;
 }
 
-export interface DataTableRowAction<TData> {
-	row: Row<TData>;
+export interface DataTableRowAction<TData extends RowData> {
+	row: Row<DataTableFeatures, TData>;
 	variant: "update" | "delete";
 }

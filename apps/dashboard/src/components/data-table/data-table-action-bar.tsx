@@ -1,10 +1,11 @@
 "use client";
 
-import type {Table} from "@tanstack/react-table";
+import type {RowData, Table} from "@tanstack/react-table";
 import {Loader, X} from "lucide-react";
 import {AnimatePresence, motion} from "motion/react";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import type {DataTableFeatures} from "@/lib/data-table-features";
 import {Button} from "src/components/ui/button";
 import {Separator} from "src/components/ui/separator";
 import {
@@ -14,14 +15,14 @@ import {
 } from "src/components/ui/tooltip";
 import {cn} from "src/lib/utils";
 
-interface DataTableActionBarProps<TData>
+interface DataTableActionBarProps<TData extends RowData>
 	extends React.ComponentProps<typeof motion.div> {
-	table: Table<TData>;
+	table: Table<DataTableFeatures, TData>;
 	visible?: boolean;
 	portalContainer?: Element | DocumentFragment | null;
 }
 
-function DataTableActionBar<TData>({
+function DataTableActionBar<TData extends RowData>({
 									   table,
 									   visible        : visibleProp,
 									   portalContainer: portalContainerProp,
@@ -124,11 +125,11 @@ function DataTableActionBarAction({
 	);
 }
 
-interface DataTableActionBarSelectionProps<TData> {
-	table: Table<TData>;
+interface DataTableActionBarSelectionProps<TData extends RowData> {
+	table: Table<DataTableFeatures, TData>;
 }
 
-function DataTableActionBarSelection<TData>({
+function DataTableActionBarSelection<TData extends RowData>({
 												table,
 											}: DataTableActionBarSelectionProps<TData>) {
 	const onClearSelection = React.useCallback(() => {

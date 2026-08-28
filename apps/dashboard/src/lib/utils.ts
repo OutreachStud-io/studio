@@ -1,6 +1,9 @@
 import {twMerge} from 'tailwind-merge';
 import {type ClassValue, clsx} from 'clsx';
-import {type Header} from "@tanstack/react-table";
+import {type Header, type RowData} from "@tanstack/react-table";
+
+import type {DataTableFeatures} from "@/lib/data-table-features";
+
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -332,8 +335,8 @@ function getSize(size = 100, max = Number.MAX_SAFE_INTEGER, min = 40) {
  *
  * @returns {Record<string, number>} An object mapping column IDs to their calculated sizes.
  */
-export const calculateTableSizing = <DataType>(
-	columns: Header<DataType, unknown>[],
+export const calculateTableSizing = <DataType extends RowData>(
+	columns: Header<DataTableFeatures, DataType, unknown>[],
 	totalWidth: number
 ): Record<string, number> => {
 	let totalAvailableWidth = totalWidth;

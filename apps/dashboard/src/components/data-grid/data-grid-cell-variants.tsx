@@ -1,8 +1,9 @@
 "use client";
 
-import type {Cell, Table} from "@tanstack/react-table";
+import type {Cell, RowData, Table} from "@tanstack/react-table";
 import {Check, X} from "lucide-react";
 import * as React from "react";
+import type {DataGridFeatures} from "@/lib/data-grid-features";
 import {DataGridCellWrapper} from "@/components/data-grid/data-grid-cell-wrapper";
 import {Badge} from "@/components/ui/badge";
 import {Calendar} from "@/components/ui/calendar";
@@ -33,9 +34,9 @@ import {useDebouncedCallback} from "@/hooks/use-debounced-callback";
 import {getLineCount} from "@/lib/data-grid";
 import {cn} from "@/lib/utils";
 
-interface CellVariantProps<TData> {
-	cell: Cell<TData, unknown>;
-	table: Table<TData>;
+interface CellVariantProps<TData extends RowData> {
+	cell: Cell<DataGridFeatures, TData, unknown>;
+	table: Table<DataGridFeatures, TData>;
 	rowIndex: number;
 	columnId: string;
 	isEditing: boolean;
@@ -43,7 +44,7 @@ interface CellVariantProps<TData> {
 	isSelected: boolean;
 }
 
-export function ShortTextCell<TData>({
+export function ShortTextCell<TData extends RowData>({
 										 cell,
 										 table,
 										 rowIndex,
@@ -194,7 +195,7 @@ export function ShortTextCell<TData>({
 	);
 }
 
-export function LongTextCell<TData>({
+export function LongTextCell<TData extends RowData>({
 										cell,
 										table,
 										rowIndex,
@@ -373,7 +374,7 @@ export function LongTextCell<TData>({
 	);
 }
 
-export function NumberCell<TData>({
+export function NumberCell<TData extends RowData>({
 									  cell,
 									  table,
 									  rowIndex,
@@ -495,7 +496,7 @@ export function NumberCell<TData>({
 	);
 }
 
-export function SelectCell<TData>({
+export function SelectCell<TData extends RowData>({
 									  cell,
 									  table,
 									  rowIndex,
@@ -620,7 +621,7 @@ export function SelectCell<TData>({
 	);
 }
 
-export function MultiSelectCell<TData>({
+export function MultiSelectCell<TData extends RowData>({
 										   cell,
 										   table,
 										   rowIndex,
@@ -919,7 +920,7 @@ export function MultiSelectCell<TData>({
 	);
 }
 
-export function CheckboxCell<TData>({
+export function CheckboxCell<TData extends RowData>({
 										cell,
 										table,
 										rowIndex,
@@ -1027,7 +1028,7 @@ function formatDateForDisplay(dateStr: string) {
 	return date.toLocaleDateString();
 }
 
-export function DateCell<TData>({
+export function DateCell<TData extends RowData>({
 									cell,
 									table,
 									rowIndex,

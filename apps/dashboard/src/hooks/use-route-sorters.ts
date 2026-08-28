@@ -1,4 +1,5 @@
 import {sortersFromString} from "@/hooks/use-data-table.ts";
+import type {DataTableFeatures} from "@/lib/data-table-features";
 import {
 	getRouteApi,
 	type RegisteredRouter,
@@ -14,7 +15,7 @@ export function useTableRouteSorters<
 	TId extends RouteIds<RegisteredRouter["routeTree"]>,
 >(
 	routeId: TId,
-	columns: ColumnDef<any>[]
+	columns: ColumnDef<DataTableFeatures, any>[]
 ) {
 	const search = getRouteApi<TId>(routeId).useSearch();
 

@@ -107,7 +107,7 @@ function Page() {
 		getRowId    : (row) => row.id,
 		history     : "push",
 		initialState: {
-			columnPinning: {right: ["actions"]},
+			columnPinning: {start: [], end: ["actions"]},
 			pagination   : {
 				pageIndex: pagination.page,
 				pageSize : pagination.perPage

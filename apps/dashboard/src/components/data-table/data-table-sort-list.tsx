@@ -1,6 +1,6 @@
 "use client";
 
-import type {ColumnSort, SortDirection, Table} from "@tanstack/react-table";
+import type {ColumnSort, RowData, SortDirection, Table} from "@tanstack/react-table";
 import {
 	ArrowDownUp,
 	ChevronsUpDown,
@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import * as React from "react";
 
+import type {DataTableFeatures, DataTableInstance} from "@/lib/data-table-features";
 import {Badge} from "src/components/ui/badge";
 import {Button} from "src/components/ui/button";
 import {
@@ -44,12 +45,12 @@ import {cn} from "src/lib/utils";
 const SORT_SHORTCUT_KEY = "s";
 const REMOVE_SORT_SHORTCUTS = ["backspace", "delete"];
 
-interface DataTableSortListProps<TData>
+interface DataTableSortListProps<TData extends RowData>
 	extends React.ComponentProps<typeof PopoverContent> {
-	table: Table<TData>;
+	table: DataTableInstance<TData>;
 }
 
-export function DataTableSortList<TData>(
+export function DataTableSortList<TData extends RowData>(
 	{
 		table,
 		...props
@@ -60,7 +61,7 @@ export function DataTableSortList<TData>(
 	const [open, setOpen] = React.useState(false);
 	const addButtonRef = React.useRef<HTMLButtonElement>(null);
 
-	const sorting = table.getState().sorting;
+	const sorting = table.state.sorting;
 	const onSortingChange = table.setSorting;
 
 	const {columnLabels, columns} = React.useMemo(() => {

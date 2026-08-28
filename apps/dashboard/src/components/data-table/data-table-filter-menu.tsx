@@ -1,6 +1,6 @@
 "use client";
 
-import type {Column, Table} from "@tanstack/react-table";
+import type {Column, RowData, Table} from "@tanstack/react-table";
 import {
 	BadgeCheck,
 	CalendarIcon,
@@ -12,6 +12,7 @@ import {
 import {useQueryState} from "nuqs";
 import * as React from "react";
 
+import type {DataTableFeatures} from "@/lib/data-table-features";
 import {DataTableRangeFilter} from "src/components/data-table/data-table-range-filter";
 import {Button} from "src/components/ui/button";
 import {Calendar} from "src/components/ui/calendar";
@@ -49,15 +50,15 @@ const THROTTLE_MS = 50;
 const FILTER_SHORTCUT_KEY = "f";
 const REMOVE_FILTER_SHORTCUTS = ["backspace", "delete"];
 
-interface DataTableFilterMenuProps<TData>
+interface DataTableFilterMenuProps<TData extends RowData>
 	extends React.ComponentProps<typeof PopoverContent> {
-	table: Table<TData>;
+	table: Table<DataTableFeatures, TData>;
 	debounceMs?: number;
 	throttleMs?: number;
 	shallow?: boolean;
 }
 
-export function DataTableFilterMenu<TData>(
+export function DataTableFilterMenu<TData extends RowData>(
 	{
 		table,
 		debounceMs = DEBOUNCE_MS,
@@ -76,7 +77,7 @@ export function DataTableFilterMenu<TData>(
 
 	const [open, setOpen] = React.useState(false);
 	const [selectedColumn, setSelectedColumn] =
-			  React.useState<Column<TData> | null>(null);
+			  React.useState<Column<DataTableFeatures, TData> | null>(null);
 	const [inputValue, setInputValue] = React.useState("");
 	const triggerRef = React.useRef<HTMLButtonElement>(null);
 	const inputRef = React.useRef<HTMLInputElement>(null);
@@ -120,7 +121,7 @@ export function DataTableFilterMenu<TData>(
 	const debouncedSetFilters = useDebouncedCallback(setFilters, debounceMs);
 
 	const onFilterAdd = React.useCallback(
-		(column: Column<TData>, value: string) => {
+		(column: Column<DataTableFeatures, TData>, value: string) => {
 			if (!value.trim() && column.columnDef.meta?.variant !== "boolean") {
 				return;
 			}
@@ -323,10 +324,10 @@ export function DataTableFilterMenu<TData>(
 	);
 }
 
-interface DataTableFilterItemProps<TData> {
+interface DataTableFilterItemProps<TData extends RowData> {
 	filter: ExtendedColumnFilter<TData>;
 	filterItemId: string;
-	columns: Column<TData>[];
+	columns: Column<DataTableFeatures, TData>[];
 	onFilterUpdate: (
 		filterId: string,
 		updates: Partial<Omit<ExtendedColumnFilter<TData>, "filterId">>,
@@ -334,7 +335,7 @@ interface DataTableFilterItemProps<TData> {
 	onFilterRemove: (filterId: string) => void;
 }
 
-function DataTableFilterItem<TData>({
+function DataTableFilterItem<TData extends RowData>({
 										filter,
 										filterItemId,
 										columns,
@@ -501,13 +502,13 @@ function DataTableFilterItem<TData>({
 	}
 }
 
-interface FilterValueSelectorProps<TData> {
-	column: Column<TData>;
+interface FilterValueSelectorProps<TData extends RowData> {
+	column: Column<DataTableFeatures, TData>;
 	value: string;
 	onSelect: (value: string) => void;
 }
 
-function FilterValueSelector<TData>({
+function FilterValueSelector<TData extends RowData>({
 										column,
 										value,
 										onSelect,
@@ -589,7 +590,7 @@ function FilterValueSelector<TData>({
 	}
 }
 
-function onFilterInputRender<TData>({
+function onFilterInputRender<TData extends RowData>({
 										filter,
 										column,
 										inputId,
@@ -598,7 +599,7 @@ function onFilterInputRender<TData>({
 										setShowValueSelector,
 									}: {
 	filter: ExtendedColumnFilter<TData>;
-	column: Column<TData>;
+	column: Column<DataTableFeatures, TData>;
 	inputId: string;
 	onFilterUpdate: (
 		filterId: string,

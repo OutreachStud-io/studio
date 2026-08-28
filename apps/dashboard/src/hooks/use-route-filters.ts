@@ -4,8 +4,10 @@ import {
 	type RouteIds,
 } from "@tanstack/react-router";
 
-import {type ColumnDef} from "@tanstack/react-table";
+import {type ColumnDef, type RowData} from "@tanstack/react-table";
 import {type TFilterSchema} from "@outreachstudio/orpc/util";
+
+import type {DataTableFeatures} from "@/lib/data-table-features";
 
 
 /**
@@ -16,9 +18,9 @@ import {type TFilterSchema} from "@outreachstudio/orpc/util";
  * @param columns table columns
  * @returns object containing the filters array
  */
-export function useTableRouteFilters<TData, TId extends RouteIds<RegisteredRouter["routeTree"]>>(
+export function useTableRouteFilters<TData extends RowData, TId extends RouteIds<RegisteredRouter["routeTree"]>>(
 	routeId: TId,
-	columns: ColumnDef<any>[],
+	columns: ColumnDef<DataTableFeatures, any>[],
 ) {
 	const search = getRouteApi<TId>(routeId).useSearch();
 	const filter: TFilterSchema["filter"] = [];
